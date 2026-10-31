@@ -1209,3 +1209,183 @@ button { font: inherit; }
   }
   .hero-content { padding-top: 56px; }
 }
+
+
+/* All Books atmosphere: lived-in second-hand stacks, warm timber and paper. */
+:root {
+  --violet: #c18a55;
+  --mint: #a18b62;
+  --amber: #d4ad72;
+  --paper: #e4d6bd;
+}
+body {
+  background: #171411;
+  color: #e8dfd0;
+}
+.site-shell {
+  background:
+    radial-gradient(ellipse at 48% 12%,rgba(111,72,43,.12),transparent 42%),
+    #171411;
+}
+.grain { opacity: .045; }
+.scanlines { opacity: .012; }
+.hero {
+  background:
+    linear-gradient(90deg,rgba(15,12,10,.78),rgba(15,12,10,.25) 48%,rgba(15,12,10,.72)),
+    repeating-linear-gradient(90deg,transparent 0 92px,rgba(205,166,111,.025) 93px 95px),
+    #1c1712;
+}
+.hero-grid {
+  opacity: .24;
+  background-size: 58px 58px;
+}
+.hero-halo { opacity: .28; filter: blur(110px); }
+.hero-title .title-outline { -webkit-text-stroke-color: rgba(232,220,199,.62); }
+.hero-title .title-offset { color: #c8794e; }
+.hero-meta, .hero-footerline { color: rgba(226,211,188,.62); }
+.hero-description .eyebrow { color: #cda56e; }
+.button-primary {
+  background: #c99f65;
+  color: #21170f;
+  border-color: #c99f65;
+}
+.button-primary:hover { background: #dfbd88; }
+.manifesto {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg,rgba(22,17,13,.96),rgba(29,22,16,.9)),
+    repeating-linear-gradient(0deg,transparent 0 44px,rgba(198,157,102,.035) 45px 47px);
+}
+.manifesto::after {
+  content: "";
+  position: absolute;
+  right: -2vw;
+  top: 8%;
+  width: min(28vw,360px);
+  height: 82%;
+  opacity: .22;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg,
+      #8a5737 0 13px, #241910 14px 18px,
+      #52604b 19px 31px, #1b1712 32px 37px,
+      #8b7650 38px 49px, #241910 50px 55px,
+      #754d42 56px 70px, #1b1712 71px 76px);
+  border-left: 8px solid #382619;
+  border-right: 8px solid #382619;
+  box-shadow: inset 0 0 24px #100c09, 0 0 35px rgba(0,0,0,.3);
+  transform: rotate(-1.5deg);
+  mask-image: linear-gradient(90deg,transparent,#000 16%,#000 85%,transparent);
+}
+.manifesto-grid, .manifesto-stats, .section-kicker { position: relative; z-index: 1; }
+.manifesto-title em, .archive-heading h2 em, .artifact-heading h2 em { color: #c8794e; }
+.manifesto-copy { border-color: rgba(205,165,110,.24); }
+.manifesto-copy p { color: #c9bdab; }
+.manifesto-stats { border-color: rgba(205,165,110,.24); }
+.manifesto-stats strong { color: #d2aa70; }
+.manifesto-stats span { color: #9d907e; }
+.archive {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg,rgba(23,19,15,.97),rgba(23,19,15,.92)),
+    repeating-linear-gradient(90deg,rgba(121,83,51,.08) 0 3px,transparent 3px 96px);
+}
+.archive::before, .archive::after {
+  content: "";
+  position: absolute;
+  top: 15%;
+  bottom: 12%;
+  width: 34px;
+  opacity: .35;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg,
+      #9a6b43 0 12px,#2d2017 13px 16px,
+      #6f5940 17px 30px,#1e1914 31px 34px,
+      #7c4c3c 35px 47px,#211710 48px 52px,
+      #53604b 53px 68px,#211710 69px 73px);
+  box-shadow: 0 0 20px rgba(0,0,0,.4);
+}
+.archive::before { left: 2.2vw; transform: rotate(-1deg); }
+.archive::after { right: 2.2vw; transform: rotate(1deg); }
+.archive > * { position: relative; z-index: 1; }
+.archive-heading h2 { color: #e8dfd0; }
+.archive-heading > p { color: #b9ad9b; }
+.shelf-list { border-color: rgba(207,174,128,.22); }
+.shelf-row {
+  min-height: 108px;
+  border-color: rgba(207,174,128,.17);
+  background: rgba(31,25,19,.38);
+}
+.shelf-row:hover { background: rgba(194,139,85,.09); }
+.shelf-glyph {
+  border-color: rgba(207,174,128,.25);
+  color: #d3a66d;
+  background: linear-gradient(145deg,#60442e,#241b14);
+  box-shadow: inset 2px 0 rgba(255,255,255,.08), 4px 5px 9px rgba(0,0,0,.25);
+}
+.shelf-amber .shelf-glyph, .shelf-mint .shelf-glyph, .shelf-paper .shelf-glyph {
+  color: #d7b47d;
+  background: linear-gradient(145deg,#57432c,#211912);
+}
+.shelf-main strong { color: #e7dac5; }
+.shelf-main small, .shelf-tag { color: #a99b88; }
+.shelf-arrow { color: #d0a36c; border-color: rgba(207,174,128,.3); }
+.shelf-row:hover .shelf-arrow { background: #bd8451; color: #17110d; }
+.archive-footnote { color: #a99b88; }
+.archive-footnote span:first-child { color: #d3a66d; }
+.artifact-section {
+  background:
+    linear-gradient(180deg,rgba(25,19,14,.94),rgba(18,15,12,.98)),
+    repeating-linear-gradient(90deg,#35271c 0 4px,transparent 4px 112px);
+}
+.artifact-backdrop {
+  background: radial-gradient(ellipse,rgba(160,105,59,.14),transparent 70%);
+}
+.artifact-heading h2 { color: #e9dfcf; }
+.artifact-heading > p { color: #b9ad9b; }
+.book-card { filter: saturate(.78); }
+.book-face {
+  border-color: rgba(230,203,161,.36);
+  box-shadow: inset 0 0 40px rgba(0,0,0,.32), 12px 18px 28px rgba(0,0,0,.48);
+}
+.book-violet .book-face { background: linear-gradient(145deg,#72503c,#282019 72%); }
+.book-amber .book-face { background: linear-gradient(145deg,#8a5d37,#2a1c13 72%); }
+.book-mint .book-face { background: linear-gradient(145deg,#536044,#1d2118 72%); }
+.book-violet .book-card-glow { background: #986b43; }
+.book-amber .book-card-glow { background: #b57a45; }
+.book-mint .book-card-glow { background: #68704b; }
+.artifact-disclaimer { color: #9d907e; }
+.visit {
+  background:
+    radial-gradient(ellipse at 70% 45%,rgba(116,77,43,.11),transparent 52%),
+    #171411;
+}
+.visit-copy h2 em { color: #c8794e; }
+.visit-copy > p, .visit-address span { color: #c1b5a3; }
+.visit-address { border-color: rgba(207,174,128,.2); color: #d2aa70; }
+.visit-address strong { color: #e7dac5; }
+.contact-bookshelf {
+  border-color: rgba(207,174,128,.2);
+  background:
+    linear-gradient(90deg,rgba(40,29,20,.95),rgba(25,20,15,.96)),
+    repeating-linear-gradient(90deg,#63462f 0 5px,transparent 5px 82px);
+}
+.contact-shelf-ledge {
+  background: linear-gradient(180deg,#735239,#3a281b 65%,#21170f);
+  border-color: rgba(221,184,132,.38);
+}
+.last-call {
+  background: linear-gradient(110deg,#35251a,#171411 70%);
+}
+.last-call-copy h2 em { color: #cf8a5b; }
+.site-footer { background: #100e0c; }
+@media (max-width: 760px) {
+  .manifesto::after { width: 25vw; opacity: .12; right: -8vw; }
+  .archive::before { left: -18px; opacity: .18; }
+  .archive::after { right: -18px; opacity: .18; }
+  .shelf-row { background: rgba(31,25,19,.55); }
+  .artifact-section { padding-top: 72px; padding-bottom: 78px; }
+}
