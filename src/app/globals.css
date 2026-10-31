@@ -494,3 +494,50 @@ button { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .hero-visual, .hero-artifact, .float-orbit { transform: none !important; }
 }
+
+
+/* Final mobile polish and keyboard-visible interaction states. */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 4px;
+}
+.menu-toggle:focus-visible, .mobile-menu-close:focus-visible {
+  outline-offset: 3px;
+}
+.mobile-menu {
+  visibility: hidden;
+  pointer-events: none;
+}
+.mobile-menu.menu-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+@media (max-width: 760px) {
+  .site-header { position: sticky; top: 0; }
+  .hero-meta { max-width: 100%; }
+  .hero-meta > span:first-child { font-size: clamp(6px,1.7vw,8px); }
+  .hero-title { overflow-wrap: normal; }
+  .hero-visual { isolation: isolate; }
+  .hero-actions .button-primary { width: auto; min-height: 48px; }
+  .shelf-row { touch-action: manipulation; }
+  .visit-actions a { justify-content: center; }
+  .wire-map { border-top: 1px solid rgba(167,181,154,.18); border-bottom: 1px solid rgba(167,181,154,.18); }
+  .site-footer { padding-bottom: max(26px, env(safe-area-inset-bottom)); }
+}
+@media (max-width: 360px) {
+  .mark-word { font-size: 10px; }
+  .mark-word small { font-size: 6px; }
+  .hero-title { font-size: 39px; }
+  .hero-meta > span:first-child { font-size: 6px; }
+  .hero-visual { height: 238px; }
+  .hero-artifact { width: 148px; height: 210px; }
+  .hero-footerline { font-size: 5px; }
+  .shelf-row { grid-template-columns: 18px 34px minmax(0,1fr) 25px; gap: 6px; }
+  .shelf-glyph { width: 33px; height: 33px; }
+  .shelf-main strong { font-size: 16px; }
+  .shelf-main small { font-size: 9px; }
+  .terminal-top, .terminal-bottom { font-size: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu { transition: none; }
+}
