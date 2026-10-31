@@ -116,7 +116,7 @@ export default function ArchiveExperience() {
     <main ref={root} className="site-shell">
       <div className="grain" aria-hidden="true" /><div className="scanlines" aria-hidden="true" />
       <header className="site-header">
-        <a href="#top" className="nav-mark" aria-label="All Books home"><span className="mark-symbol">A<span>/</span>B</span><span className="mark-word">ALL BOOKS<small>RIDEAU STREET · OTTAWA</small></span></a>
+        <a href="#top" className="nav-mark" aria-label="All Books home"><span className="mark-symbol">A<span>/</span>B</span><span className="mark-word">ALL BOOKS<small>SECOND-HAND BOOKS · OTTAWA</small></span></a>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#archive">THE ARCHIVE</a><a href="#signal">OUR STORY</a><a href="#coordinates">FIND US</a></nav>
         <a className="header-visit" href="#coordinates"><span className="status-dot" /> VISIT THE STORE <ArrowUpRight size={14} /></a>
         <button className="menu-toggle" aria-label="Toggle navigation" onClick={toggleMenu}><Menu size={22} /></button>
@@ -127,10 +127,10 @@ export default function ArchiveExperience() {
         <div className="hero-grid" aria-hidden="true" /><div className="hero-halo halo-one parallax-layer" data-speed="-14" /><div className="hero-halo halo-two parallax-layer" data-speed="10" />
         <div className="hero-vertical-code" aria-hidden="true">RIDEAU STREET / LOWER TOWN / OTTAWA</div>
         <div className="hero-content">
-          <div className="hero-meta"><span><span className="status-dot" /> INDEPENDENT BOOKSTORE / OTTAWA</span><span className="meta-right">FIELD NOTES — 001 / 026</span></div>
+          <div className="hero-meta"><span><span className="status-dot" /> INDEPENDENT BOOKSHOP / OTTAWA</span><span className="meta-right">FIELD NOTES — 001 / 026</span></div>
           <h1 className="hero-title"><span className="title-line"><SplitText>ALL BOOKS.</SplitText></span><span className="title-line title-outline"><SplitText>ALL OVER.</SplitText></span><span className="title-line title-offset"><SplitText>ALL THE TIME.</SplitText></span></h1>
           <div className="hero-bottom">
-            <div className="hero-description"><span className="eyebrow">A LIVING ARCHIVE ON RIDEAU STREET</span><p>Floor to ceiling. Corner to corner. A thousand rabbit holes waiting to happen. The good stuff is rarely where you expect it.</p><div className="hero-actions"><a className="button-primary" href="#archive">EXPLORE THE SHELVES <ArrowDownRight size={16} /></a><a className="text-link" href="#coordinates">GET DIRECTIONS <ArrowUpRight size={15} /></a></div></div>
+            <div className="hero-description"><span className="eyebrow">A BOOKSHOP ON RIDEAU STREET</span><p>A little bit of everything, stacked floor to ceiling. Come in looking for one book and leave with three you never expected to find.</p><div className="hero-actions"><a className="button-primary" href="#archive">EXPLORE THE SHELVES <ArrowDownRight size={16} /></a><a className="text-link" href="#coordinates">GET DIRECTIONS <ArrowUpRight size={15} /></a></div></div>
             <div className="hero-index"><span className="index-label">CURRENT LOCATION</span><strong>327 <span>RIDEAU ST.</span></strong><span className="index-sub">OTTAWA, ON · K1N 5Y4</span></div>
           </div>
         </div>
