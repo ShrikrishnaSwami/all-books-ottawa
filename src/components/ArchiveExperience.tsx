@@ -171,20 +171,17 @@ export default function ArchiveExperience() {
         <div className="visit-grid">
           <div className="visit-copy reveal"><span className="eyebrow"><span className="status-dot" /> DROP IN AND BROWSE</span><h2>COME FIND<br /><em>YOUR NEXT</em><br />GOOD READ.</h2><p>Visit us on Rideau Street, beside the ByTowne Cinema. Stop in, browse the shelves and see what catches your eye.</p><div className="visit-address"><MapPin size={18} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button-primary" href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer">OPEN NAVIGATION <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={15} /> (613) 789-9544</a><a className="phone-link" href="https://www.abebooks.com/all-books-ottawa-ottawa-on-canada/52468515/sf" target="_blank" rel="noreferrer">ABEBOOKS LISTING <ArrowUpRight size={13} /></a></div><div className="hours-note"><span className="hours-dot" /> HOURS CHANGE — CALL AHEAD BEFORE MAKING THE TRIP.</div></div>
           <div className="contact-bookshelf reveal">
-            <div className="contact-shelf-heading"><span className="eyebrow">THE USEFUL SHELF</span><span>SELECT A BOOK TO OPEN</span></div>
+            <div className="contact-shelf-heading"><span className="eyebrow">THE USEFUL SHELF</span><span>CHOOSE A BOOK</span></div>
             <div className="contact-books">
               <a className="contact-book contact-book-location" href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer" aria-label="Open directions to All Books at 327 Rideau Street">
-                <span className="contact-book-code">01 / FIND</span><MapPin size={27} /><strong>FIND<br />THE SHOP</strong><small>327 RIDEAU ST.</small><span className="contact-book-open">OPEN MAP ↗</span>
+                <span className="contact-book-code">01 / VISIT</span><MapPin size={25} /><strong>FIND<br />THE SHOP</strong><small>327 RIDEAU ST.</small><span className="contact-book-open">GET DIRECTIONS <ArrowUpRight size={12} /></span>
               </a>
               <a className="contact-book contact-book-phone" href="tel:+16137899544" aria-label="Call All Books at 613 789 9544">
-                <span className="contact-book-code">02 / CALL</span><Phone size={27} /><strong>GIVE US<br />A RING</strong><small>(613) 789-9544</small><span className="contact-book-open">CALL NOW ↗</span>
-              </a>
-              <a className="contact-book contact-book-online" href="https://www.abebooks.com/all-books-ottawa-ottawa-on-canada/52468515/sf" target="_blank" rel="noreferrer" aria-label="View the All Books AbeBooks listing">
-                <span className="contact-book-code">03 / BROWSE</span><ArrowUpRight size={27} /><strong>FIND US<br />ONLINE</strong><small>ABEBOOKS</small><span className="contact-book-open">VIEW LISTING ↗</span>
+                <span className="contact-book-code">02 / CALL</span><Phone size={25} /><strong>GIVE US<br />A RING</strong><small>(613) 789-9544</small><span className="contact-book-open">CALL THE SHOP <ArrowUpRight size={12} /></span>
               </a>
             </div>
             <div className="contact-shelf-ledge"><span>ALL BOOKS · RIDEAU STREET</span><span>OTTAWA, ONTARIO</span></div>
-            <div className="contact-shelf-foot">HOURS CAN CHANGE — CALL AHEAD BEFORE VISITING.</div>
+            <div className="contact-shelf-foot">HOURS MAY CHANGE — CALL AHEAD BEFORE VISITING.</div>
           </div>
         </div>
       </section>
