@@ -381,7 +381,7 @@ export default function ImmersiveBookScene() {
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, []);
+  }, [cursorPortalReady]);
 
   const closeDetails = () => {
     const activeIndex = selectedRef.current;
