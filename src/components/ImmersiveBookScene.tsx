@@ -258,13 +258,16 @@ export default function ImmersiveBookScene() {
       gsap.to(rig.group.scale, { x: 1.75, y: 1.75, z: 1.75, duration: 1.1, ease: "power4.inOut" });
       gsap.delayedCall(0.75, () => {
         rig.opened = true;
-        gsap.to(rig.coverPivot.rotation, { y: -1.42, duration: 0.85, ease: "power3.inOut" });
+        gsap.to(rig.coverPivot.rotation, { y: -Math.PI / 2, duration: 0.85, ease: "power3.inOut" });
       });
     };
 
     renderer.domElement.addEventListener("pointermove", handlePointerMove);
     renderer.domElement.addEventListener("pointerleave", handlePointerLeave);
     renderer.domElement.addEventListener("click", handleClick);
+
+    gsap.to(".webgl-kinetic-word.word-a", { xPercent: 24, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 } });
+    gsap.to(".webgl-kinetic-word.word-b", { xPercent: -24, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 } });
 
     const scrollTweens = rigs.map((rig, index) => {
       const angle = index * 0.9;
@@ -356,6 +359,8 @@ export default function ImmersiveBookScene() {
   return (
     <>
       <div className="webgl-book-stage" ref={mountRef} aria-hidden={selected !== null}>
+        <div className="webgl-kinetic-word word-a" aria-hidden="true">EXPLORE</div>
+        <div className="webgl-kinetic-word word-b" aria-hidden="true">IMAGINE</div>
         <div className="webgl-caption">A LIVING ARCHIVE <span>·</span> MOVE TO EXPLORE</div>
         <div className="webgl-crosshair" aria-hidden="true">+</div>
       </div>
