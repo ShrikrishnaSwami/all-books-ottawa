@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ImmersiveBookScene from "@/components/ImmersiveBookScene";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -141,11 +142,7 @@ export default function ArchiveExperience() {
             <div className="hero-index"><span className="index-label">CURRENT LOCATION</span><strong>327 <span>RIDEAU ST.</span></strong><span className="index-sub">OTTAWA, ON · K1N 5Y4</span></div>
           </div>
         </div>
-        <div className="hero-visual parallax-layer" data-speed="-7" aria-hidden="true">
-          <div className="orbit orbit-a" /><div className="orbit orbit-b" /><div className="orbit orbit-c" />
-          <div className="hero-artifact float-orbit"><div className="artifact-cover"><div className="artifact-cover-top"><span>AB / 327</span><span>VOL. 001</span></div><div className="artifact-rings"><i /><i /><i /></div><div className="artifact-word">THE<br />HUMAN<br /><em>INDEX</em></div><div className="artifact-cover-bottom"><span>A WORLD OF STORIES</span><span>OTTAWA / CANADA</span></div></div><div className="artifact-side" /></div>
-          <div className="hero-orbit-label label-top"><span className="label-cross">+</span> UNCATALOGUED / UNEXPECTED</div><div className="hero-orbit-label label-bottom"><span className="label-pulse" /> SIGNAL: CURIOSITY</div><div className="hero-coordinate">RIDEAU ST.<br />OTTAWA, CANADA</div>
-        </div>
+        <ImmersiveBookScene />
         <div className="hero-footerline"><span>NOT A CHAIN. NOT AN ALGORITHM. JUST BOOKS.</span><span className="scroll-cue">SCROLL TO EXPLORE <ArrowDown size={13} /></span><span>FIG. 001 — THE STACKS</span></div>
       </section>
 
