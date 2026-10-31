@@ -123,7 +123,7 @@ export default function ArchiveExperience() {
     <main ref={root} className="site-shell">
       <div className="grain" aria-hidden="true" /><div className="scanlines" aria-hidden="true" />
       <header className="site-header">
-        <a href="#top" className="nav-mark" aria-label="All Books home"><span className="mark-symbol">A<span>/</span>B</span><span className="mark-word">ALL BOOKS<small>SECOND-HAND BOOKS · OTTAWA</small></span></a>
+        <a href="#top" className="nav-mark" aria-label="All Books home"><span className="mark-symbol" aria-hidden="true"><svg className="brand-glyph" viewBox="0 0 48 48" fill="none"><path d="M7.5 12.5c6.2-2.1 11.5-.8 16.5 3.1v23c-5-3.9-10.3-5.2-16.5-3.1v-23Z" /><path d="M40.5 12.5c-6.2-2.1-11.5-.8-16.5 3.1v23c5-3.9 10.3-5.2 16.5-3.1v-23Z" /><path d="M24 15.6v23" /><path d="m14 20 5.5 1.3M14 25l5.5 1.3M34 20l-5.5 1.3M34 25l-5.5 1.3" /></svg><span className="brand-seal">A</span></span><span className="mark-word">ALL BOOKS<small>SECOND-HAND BOOKS · OTTAWA</small></span></a>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#archive">THE ARCHIVE</a><a href="#signal">OUR STORY</a><a href="#coordinates">FIND US</a></nav>
         <a className="header-visit" href="#coordinates"><span className="status-dot" /> VISIT THE STORE <ArrowUpRight size={14} /></a>
         <button className="menu-toggle" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={toggleMenu}><Menu size={22} /></button>
@@ -177,7 +177,7 @@ export default function ArchiveExperience() {
         </div>
       </section>
 
-      <section className="last-call"><div className="last-call-mark">A<span>/</span>B</div><div className="last-call-copy"><span className="eyebrow">SEE YOU BETWEEN THE SHELVES</span><h2>COME SAY<br /><em>HELLO.</em></h2></div><a href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer" className="last-call-link">327 RIDEAU STREET <ArrowUpRight size={18} /></a><div className="last-call-orbit" aria-hidden="true"><Orbit /></div></section>
+      <section className="last-call"><div className="last-call-mark" aria-label="All Books emblem"><svg className="brand-glyph" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M7.5 12.5c6.2-2.1 11.5-.8 16.5 3.1v23c-5-3.9-10.3-5.2-16.5-3.1v-23Z" /><path d="M40.5 12.5c-6.2-2.1-11.5-.8-16.5 3.1v23c5-3.9 10.3-5.2 16.5-3.1v-23Z" /><path d="M24 15.6v23" /><path d="m14 20 5.5 1.3M14 25l5.5 1.3M34 20l-5.5 1.3M34 25l-5.5 1.3" /></svg><span>ALL BOOKS</span></div><div className="last-call-copy"><span className="eyebrow">SEE YOU BETWEEN THE SHELVES</span><h2>COME SAY<br /><em>HELLO.</em></h2></div><a href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer" className="last-call-link">327 RIDEAU STREET <ArrowUpRight size={18} /></a><div className="last-call-orbit" aria-hidden="true"><Orbit /></div></section>
       <footer className="site-footer"><a href="#top" className="footer-brand">ALL BOOKS<span>®</span></a><span>INDEPENDENTLY MINDED. DEEPLY STACKED.</span><div className="footer-links"><a href="tel:+16137899544">CALL THE SHOP</a><a href="#coordinates">FIND US <MoveUpRight size={12} /></a></div><span className="footer-copy">© {new Date().getFullYear()} ALL BOOKS · RIDEAU STREET, OTTAWA</span></footer>
     </main>
   );
