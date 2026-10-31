@@ -170,12 +170,12 @@ export default function ImmersiveBookScene() {
     const originalPositions: THREE.Vector3[] = [];
     const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
     // A deliberate elliptical orbit frames the headline instead of scattering books randomly.
-    const orbitCenterX = isMobileLayout ? 0 : -1.15;
-    const orbitRadiusX = isMobileLayout ? 1.65 : 3.75;
-    const orbitRadiusY = isMobileLayout ? 0.92 : 2.42;
+    const orbitCenterX = 0;
+    const orbitRadiusX = isMobileLayout ? 1.45 : 3.55;
+    const orbitRadiusY = isMobileLayout ? 1.05 : 2.05;
     for (let index = 0; index < spread; index += 1) {
       const rig = makeBook(index);
-      const angle = (index / spread) * Math.PI * 2 - Math.PI / 2;
+      const angle = (index / spread) * Math.PI * 2;
       const position = new THREE.Vector3(
         orbitCenterX + Math.cos(angle) * orbitRadiusX,
         Math.sin(angle) * orbitRadiusY,
@@ -185,9 +185,9 @@ export default function ImmersiveBookScene() {
       rig.group.position.copy(position);
       // Faces stay readable while the complete collection slowly revolves around the headline.
       rig.group.rotation.set(
-        Math.sin(angle) * 0.08,
-        Math.cos(angle) * 0.12,
-        Math.cos(angle) * 0.12,
+        Math.sin(angle) * 0.045,
+        Math.cos(angle) * 0.1,
+        Math.sin(angle * 2) * 0.045,
       );
       rig.group.scale.setScalar(isMobileLayout ? 0.39 + (index % 2) * 0.025 : 0.58 + (index % 3) * 0.025);
       cloud.add(rig.group);
@@ -214,8 +214,8 @@ export default function ImmersiveBookScene() {
       camera.aspect = width / Math.max(height, 1);
       camera.position.z = mobile ? 8.8 : 9.2;
       camera.updateProjectionMatrix();
-      cloud.position.set(mobile ? 0 : width < 1100 ? -0.85 : -1.15, 0, 0);
-      cloud.scale.setScalar(mobile ? 0.9 : width < 1100 ? 0.82 : 0.88);
+      cloud.position.set(0, mobile ? -0.1 : 0, 0);
+      cloud.scale.setScalar(mobile ? 0.72 : width < 1100 ? 0.78 : 0.86);
       renderer.setSize(width, height, false);
     };
     resize();
@@ -261,7 +261,7 @@ export default function ImmersiveBookScene() {
       const rig = hovered;
       selectedRef.current = rig.index;
       setSelected(rig.index);
-      gsap.to(rig.group.position, { x: -cloud.position.x, y: 0, z: 2.6, duration: 0.9, ease: "power4.inOut" });
+      gsap.to(rig.group.position, { x: 0, y: 0, z: 2.6, duration: 0.9, ease: "power4.inOut" });
       gsap.to(rig.group.rotation, { x: 0, y: 0, z: 0, duration: 0.9, ease: "power4.inOut" });
       gsap.to(rig.group.scale, { x: 1.45, y: 1.45, z: 1.45, duration: 0.9, ease: "power4.inOut" });
       gsap.delayedCall(0.62, () => {
@@ -300,8 +300,19 @@ export default function ImmersiveBookScene() {
       if (disposed) return;
       const elapsed = clock.getElapsedTime();
       currentRotation.lerp(targetRotation, 0.035);
-      cloud.rotation.x = currentRotation.x + Math.sin(elapsed * 0.18) * 0.025;
-      cloud.rotation.y = currentRotation.y + elapsed * 0.035;
+      cloud.rotation.x = currentRotation.x + Math.sin(elapsed * 0.18) * 0.018;
+      cloud.rotation.y = currentRotation.y;
+      rigs.forEach((rig, index) => {
+        if (selectedRef.current !== null) return;
+        const angle = (index / spread) * Math.PI * 2 + elapsed * 0.16;
+        const mobile = window.matchMedia("(max-width: 760px)").matches;
+        const radiusX = mobile ? 1.45 : 3.55;
+        const radiusY = mobile ? 1.05 : 2.05;
+        rig.group.position.x = Math.cos(angle) * radiusX;
+        rig.group.position.y = Math.sin(angle) * radiusY + Math.sin(elapsed * 0.7 + index) * 0.08;
+        rig.group.position.z = Math.sin(angle * 2) * 0.38;
+        rig.group.rotation.z = Math.sin(angle * 2) * 0.045;
+      });
       raycaster.setFromCamera(pointer, camera);
       const intersections = pointerOnCanvas ? raycaster.intersectObjects(rigs.map((rig) => rig.group), true) : [];
       const next = intersections.length ? findBook(intersections[0].object) : null;
@@ -335,7 +346,7 @@ export default function ImmersiveBookScene() {
         duration: 0.75,
         ease: "power3.inOut",
       });
-      const scale = 0.64 + (index % 3) * 0.035;
+      const scale = window.matchMedia("(max-width: 760px)").matches ? 0.39 + (index % 2) * 0.025 : 0.58 + (index % 3) * 0.025;
       gsap.to(active.group.scale, { x: scale, y: scale, z: scale, duration: 0.75, ease: "power3.inOut" });
       gsap.to(active.coverPivot.rotation, { y: 0, duration: 0.6, ease: "power3.inOut" });
     };
