@@ -1389,3 +1389,21 @@ body {
   .shelf-row { background: rgba(31,25,19,.55); }
   .artifact-section { padding-top: 72px; padding-bottom: 78px; }
 }
+
+
+/* The custom pointer is portalled to body so no section, canvas, header,
+   transformed ancestor or modal can paint over it. */
+body > .magnetic-cursor,
+.magnetic-cursor {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  isolation: isolate;
+  transform: translate3d(-50%,-50%,0);
+  will-change: left, top, width, height;
+}
+.magnetic-cursor svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
