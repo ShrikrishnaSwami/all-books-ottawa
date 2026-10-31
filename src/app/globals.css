@@ -541,3 +541,40 @@ button { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .mobile-menu { transition: none; }
 }
+
+
+/* Distinctive All Books emblem: an open book framed like a vintage library stamp. */
+.nav-mark { gap: 12px; }
+.mark-symbol {
+  position: relative;
+  overflow: hidden;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(217,180,119,.7);
+  border-radius: 3px 3px 11px 3px;
+  background: linear-gradient(145deg, rgba(216,121,85,.16), rgba(217,180,119,.045));
+  box-shadow: inset 0 0 0 3px rgba(217,180,119,.07), 0 5px 18px rgba(0,0,0,.16);
+  color: var(--ink);
+}
+.brand-glyph { width: 31px; height: 31px; stroke: var(--amber); stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+.mark-symbol .brand-glyph { position: absolute; inset: 6px; width: 30px; height: 30px; }
+.brand-seal {
+  position: absolute;
+  right: 5px;
+  bottom: 3px;
+  color: var(--ink) !important;
+  font: 700 8px var(--display);
+  line-height: 1;
+  background: var(--bg);
+  padding: 2px 3px;
+  border: 1px solid rgba(217,180,119,.55);
+}
+.mark-word { letter-spacing: .17em; }
+.last-call-mark { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; color: var(--amber); }
+.last-call-mark .brand-glyph { width: 52px; height: 52px; stroke: var(--amber); stroke-width: 1.15; }
+.last-call-mark > span { color: var(--ink); font: 8px var(--mono); letter-spacing: .2em; }
+@media (max-width: 760px) {
+  .mark-symbol { width: 39px; height: 39px; }
+  .mark-symbol .brand-glyph { inset: 5px; width: 28px; height: 28px; }
+  .last-call-mark .brand-glyph { width: 44px; height: 44px; }
+}
