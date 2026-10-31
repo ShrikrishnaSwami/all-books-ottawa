@@ -328,7 +328,7 @@ export default function ImmersiveBookScene() {
       renderer.domElement.removeEventListener("pointerleave", handlePointerLeave);
       renderer.domElement.removeEventListener("click", handleClick);
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === ".manifesto") trigger.kill();
+        if (trigger.vars.trigger === ".manifesto" || trigger.vars.trigger === ".hero") trigger.kill();
       });
       scrollTweens.forEach((tween) => tween.kill());
       rotationTweens.forEach((tween) => tween.kill());
