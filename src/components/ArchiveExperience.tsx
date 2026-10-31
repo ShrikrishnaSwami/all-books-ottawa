@@ -23,10 +23,11 @@ import {
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const shelves = [
-  { index: "01", name: "Science fiction", detail: "Future histories. Strange worlds. Old visions of tomorrow.", tag: "SIGNAL FOUND", color: "violet", glyph: "SF" },
-  { index: "02", name: "French literature", detail: "A deep shelf of voices, from the familiar to the hard to find.", tag: "LANGUAGE / FR", color: "mint", glyph: "FR" },
-  { index: "03", name: "Fiction & beyond", detail: "Novels, essays, history, philosophy, art and everything between.", tag: "WIDE FREQUENCY", color: "amber", glyph: "XX" },
-  { index: "04", name: "Rare & out of print", detail: "The books that stopped being printed. Not the books that stopped mattering.", tag: "LOW QUANTITY", color: "paper", glyph: "R/" },
+  { index: "01", name: "Fiction, crime & classics", detail: "Paperback favourites, old classics, mysteries and stories worth getting lost in.", tag: "FOLLOW A HUNCH", color: "violet", glyph: "F" },
+  { index: "02", name: "History & politics", detail: "History, economics, political thought and accounts of the world.", tag: "LOOK CLOSER", color: "mint", glyph: "H" },
+  { index: "03", name: "Philosophy & science", detail: "Big questions, curious ideas, science and non-fiction discoveries.", tag: "THINK A WHILE", color: "amber", glyph: "?" },
+  { index: "04", name: "French & world literature", detail: "French-language titles, literature in translation and voices from elsewhere.", tag: "LANGUAGE / FR", color: "paper", glyph: "FR" },
+  { index: "05", name: "Rare & out of print", detail: "Hard-to-find editions, forgotten titles and books with a little history.", tag: "HIDDEN IN STACKS", color: "violet", glyph: "R" },
 ];
 
 function SplitText({ children }: { children: string }) {
@@ -148,28 +149,28 @@ export default function ArchiveExperience() {
 
       <section className="manifesto section-pad" id="signal">
         <div className="section-kicker reveal"><span>01 / ABOUT ALL BOOKS</span><span>ABOUT THIS PLACE</span></div>
-        <div className="manifesto-grid"><h2 className="manifesto-title reveal">A BOOKSHOP FOR THE<br /><em>CURIOUS READER.</em></h2><div className="manifesto-copy reveal"><span className="signal-icon"><AudioLines size={19} /></span><p>All Books is an independent second-hand bookshop on Rideau Street. Browse shelves filled with stories, unexpected discoveries and books that deserve another reader.</p><p>From science fiction and French literature to fiction, history and hard-to-find titles, there is always something new to discover. The selection changes, so every visit is a little different.</p><a href="#coordinates" className="text-link">FIND YOUR WAY HERE <ArrowUpRight size={15} /></a></div></div>
-        <div className="manifesto-stats reveal"><div><strong>327</strong><span>RIDEAU STREET</span></div><div><strong>∞</strong><span>WAYS TO GET LOST</span></div><div><strong>01</strong><span>VERY REAL BOOKSHOP</span></div><div className="stat-note">A SMALL SPACE<br />WITH A BIG MEMORY.</div></div>
+        <div className="manifesto-grid"><h2 className="manifesto-title reveal">A BOOKSHOP FOR THE<br /><em>CURIOUS READER.</em></h2><div className="manifesto-copy reveal"><span className="signal-icon"><AudioLines size={19} /></span><p>All Books is a proper old-school second-hand bookshop: compact, crowded, and stacked with books from floor to ceiling. The aisles are narrow, the piles are tall, and there is always another shelf to check.</p><p>There is no searchable online catalogue. Ask the owner about a title — they know this collection by heart and can often point you straight to the right stack. Or skip the plan and see what turns up.</p><a href="#coordinates" className="text-link">FIND YOUR WAY HERE <ArrowUpRight size={15} /></a></div></div>
+        <div className="manifesto-stats reveal"><div><strong>327</strong><span>RIDEAU STREET</span></div><div><strong>∞</strong><span>BOOKS TO GET LOST IN</span></div><div><strong>$</strong><span>SECOND-HAND PRICES</span></div><div className="stat-note">NO DATABASE.<br />JUST A VERY GOOD MEMORY.</div></div>
       </section>
 
       <section className="archive section-pad" id="archive">
         <div className="section-kicker reveal"><span>02 / EXPLORE THE SHELVES</span><span>A FEW PLACES TO START</span></div>
-        <div className="archive-heading reveal"><div><span className="eyebrow">SOMEWHERE IN THESE STACKS</span><h2>FIND YOUR<br /><em>NEXT READ.</em></h2></div><p>Start with a few of the shelves and see where they take you. The selection changes, so the best way to discover what is here is to visit.</p></div>
+        <div className="archive-heading reveal"><div><span className="eyebrow">A ROUGH GUIDE — NOT A CATALOGUE</span><h2>FOLLOW A<br /><em>SPINE.</em></h2></div><p>Fiction, history, philosophy, science, crime, economics, politics, classics and plenty more. These are starting points, not a complete inventory. The shelves are best explored in person.</p></div>
         <div className="shelf-list">{shelves.map((shelf) => <a className={`shelf-row shelf-${shelf.color}`} href="#coordinates" key={shelf.index}><span className="shelf-index">{shelf.index}</span><span className="shelf-glyph">{shelf.glyph}</span><span className="shelf-main"><strong>{shelf.name}</strong><small>{shelf.detail}</small></span><span className="shelf-tag">{shelf.tag}</span><span className="shelf-arrow"><ArrowUpRight size={20} /></span></a>)}</div>
-        <div className="archive-footnote reveal"><span><Sparkles size={14} /> NO TWO VISITS ARE THE SAME</span><span>INVENTORY CHANGES CONSTANTLY — COME BROWSE.</span></div>
+        <div className="archive-footnote reveal"><span><Sparkles size={14} /> NO TWO VISITS ARE THE SAME</span><span>LOOKING FOR SOMETHING SPECIFIC? ASK THE OWNER.</span></div>
       </section>
 
       <section className="artifact-section">
         <div className="artifact-backdrop" aria-hidden="true" /><div className="section-kicker reveal"><span>03 / THE ART OF BROWSING</span><span>AN EXERCISE IN DISCOVERY</span></div>
-        <div className="artifact-heading reveal"><h2>THE JOY OF<br /><em>DISCOVERY.</em></h2><p>A few imagined cover designs inspired by the kinds of stories you might find. Actual titles and availability vary in store.</p></div>
+        <div className="artifact-heading reveal"><h2>NO DATABASE.<br /><em>JUST INSTINCT.</em></h2><p>No barcode hunt or searchable inventory. Tell the owner what you are after — they know the stacks, and can often tell you if it is here and where to look.</p></div>
         <div className="artifact-gallery"><div className="artifact-note note-left float-orbit"><span>ARCHIVE NOTE / A</span><strong>OLD WORLDS.<br />NEW WINDOWS.</strong><small>THE PAST IS STILL IN PRINT.</small></div><BookArtifact code="AB—001" title="OTHER WORLDS" subtitle="SCIENCE FICTION" tone="violet" note="EXPLORE THE UNKNOWN" /><BookArtifact code="AB—002" title="LOST LANGUAGES" subtitle="FRENCH LITERATURE" tone="amber" note="VOICES ACROSS TIME" /><BookArtifact code="AB—003" title="THE LONG VIEW" subtitle="HISTORY / IDEAS" tone="mint" note="THOUGHTS THAT REMAIN" /><div className="artifact-note note-right float-orbit"><span>ARCHIVE NOTE / B</span><strong>OUT OF PRINT.<br />NOT OUT OF TIME.</strong><small>THE HUNT IS THE WHOLE POINT.</small></div></div>
-        <div className="artifact-disclaimer">ILLUSTRATIVE ARCHIVE ARTWORK · NOT A LIVE INVENTORY FEED</div>
+        <div className="artifact-disclaimer">THE COVERS ARE JUST FOR ATMOSPHERE · THE REAL FINDS ARE ON THE SHELVES</div>
       </section>
 
       <section className="visit section-pad" id="coordinates">
         <div className="section-kicker reveal"><span>04 / VISIT THE SHOP</span><span>ON RIDEAU STREET</span></div>
         <div className="visit-grid">
-          <div className="visit-copy reveal"><span className="eyebrow"><span className="status-dot" /> DROP IN AND BROWSE</span><h2>COME FIND<br /><em>YOUR NEXT</em><br />GOOD READ.</h2><p>Visit us on Rideau Street, beside the ByTowne Cinema. Stop in, browse the shelves and see what catches your eye.</p><div className="visit-address"><MapPin size={18} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button-primary" href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer">OPEN NAVIGATION <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={15} /> (613) 789-9544</a></div><div className="hours-note"><span className="hours-dot" /> HOURS CHANGE — CALL AHEAD BEFORE MAKING THE TRIP.</div></div>
+          <div className="visit-copy reveal"><span className="eyebrow"><span className="status-dot" /> DROP IN AND BROWSE</span><h2>COME FIND<br /><em>YOUR NEXT</em><br />GOOD READ.</h2><p>Come ready to browse. The shop is small, densely packed and full of second-hand surprises — with books stacked into every corner. Many paperbacks and other finds start at just a few dollars.</p><div className="visit-address"><MapPin size={18} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button-primary" href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer">OPEN NAVIGATION <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={15} /> (613) 789-9544</a></div><div className="hours-note"><span className="hours-dot" /> HOURS CHANGE — CALL AHEAD BEFORE MAKING THE TRIP.</div></div>
           <div className="contact-bookshelf reveal">
             <div className="contact-shelf-heading"><span className="eyebrow">THE USEFUL SHELF</span><span>CHOOSE A BOOK</span></div>
             <div className="contact-books">
