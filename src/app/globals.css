@@ -1162,3 +1162,50 @@ button { font: inherit; }
   .contact-book small { font-size: 6px; }
   .contact-shelf-heading { align-items: center; flex-direction: row; }
 }
+
+
+/* Header locator sits level across the top edge — no vertical writing/rotation. */
+.hero-vertical-code {
+  position: absolute !important;
+  top: 24px !important;
+  right: 5.5vw !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  transform: none !important;
+  white-space: nowrap;
+  text-align: right;
+  z-index: 6 !important;
+  letter-spacing: .18em;
+  line-height: 1.4;
+  color: rgba(240,238,230,.48);
+}
+.hero-content {
+  position: relative;
+  z-index: 4;
+}
+.hero-title {
+  margin-inline: auto;
+  text-align: center;
+}
+.hero-title .title-line,
+.hero-title .title-line .split-line {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.webgl-book-stage { z-index: 2; }
+.book-webgl-canvas { display: block; }
+@media (max-width: 760px) {
+  .hero-vertical-code {
+    top: 14px !important;
+    right: 5vw !important;
+    left: 5vw !important;
+    white-space: normal;
+    text-align: center;
+    font-size: 6px;
+  }
+  .hero-content { padding-top: 56px; }
+}
