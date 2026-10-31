@@ -2,19 +2,20 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "All Books — Independent Bookshop on Rideau Street",
+  title: "All Books | Independent Second-Hand Bookshop in Ottawa",
   description:
-    "An independent second-hand bookshop on Rideau Street in Ottawa. Browse a changing collection of fiction, science fiction, French literature and hard-to-find books.",
+    "Discover All Books, an independent second-hand bookshop at 327 Rideau Street in Ottawa. Explore fiction, history, philosophy, science, French literature, classics and unexpected finds.",
   openGraph: {
-    title: "All Books — Independent Bookshop on Rideau Street",
-    description: "An independent second-hand bookshop on Rideau Street in Ottawa. Browse science fiction, French literature, fiction and unexpected finds.",
+    title: "All Books | Independent Second-Hand Bookshop in Ottawa",
+    description:
+      "A compact, characterful second-hand bookshop on Rideau Street, filled with well-loved books, unexpected discoveries and hard-to-find titles.",
     type: "website",
     locale: "en_CA",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#11100e",
+  themeColor: "#17130f",
   colorScheme: "dark",
 };
 
