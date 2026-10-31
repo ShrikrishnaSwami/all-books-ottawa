@@ -153,6 +153,7 @@ function makeBook(index: number): BookRig {
 export default function ImmersiveBookScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
+  const selectedRef = useRef<number | null>(null);
   const [cursorActive, setCursorActive] = useState(false);
 
   useEffect(() => {
@@ -230,11 +231,12 @@ export default function ImmersiveBookScene() {
       setCursorActive(false);
     };
     const handleClick = () => {
-      if (!hovered || selected !== null) return;
+      if (!hovered || selectedRef.current !== null) return;
       const rig = hovered;
-      setSelected(rig.index);
+      selectedRef.current = rig.index;
       const viewTransition = (document as Document & { startViewTransition?: (callback: () => void) => { ready: Promise<void> } }).startViewTransition;
-      if (viewTransition) viewTransition(() => undefined);
+      if (viewTransition) viewTransition(() => setSelected(rig.index));
+      else setSelected(rig.index);
       gsap.to(rig.group.position, { x: 0, y: 0, z: 3.1, duration: 1.1, ease: "power4.inOut" });
       gsap.to(rig.group.rotation, { x: 0, y: 0, z: 0, duration: 1.1, ease: "power4.inOut" });
       gsap.to(rig.group.scale, { x: 1.75, y: 1.75, z: 1.75, duration: 1.1, ease: "power4.inOut" });
@@ -289,7 +291,7 @@ export default function ImmersiveBookScene() {
       }
       rigs.forEach((rig, index) => {
         rig.coverMaterial.uniforms.uTime.value = elapsed + index * 0.17;
-        if (!rig.opened && selected === null) {
+        if (!rig.opened && selectedRef.current === null) {
           rig.group.position.y += Math.sin(elapsed * 0.65 + index) * 0.0008;
           rig.group.rotation.z += Math.sin(elapsed * 0.4 + index) * 0.00012;
         }
@@ -324,12 +326,13 @@ export default function ImmersiveBookScene() {
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [selected]);
+  }, []);
 
   const closeDetails = () => {
-    setSelected(null);
+    selectedRef.current = null;
     const viewTransition = (document as Document & { startViewTransition?: (callback: () => void) => { ready: Promise<void> } }).startViewTransition;
-    if (viewTransition) viewTransition(() => undefined);
+    if (viewTransition) viewTransition(() => setSelected(null));
+    else setSelected(null);
   };
 
   return (
