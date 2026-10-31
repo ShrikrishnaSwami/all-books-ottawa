@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -136,6 +137,11 @@ export default function ImmersiveBookScene() {
   const resetSceneRef = useRef<(index: number) => void>(() => {});
   const [selected, setSelected] = useState<number | null>(null);
   const [cursorActive, setCursorActive] = useState(false);
+  const [cursorPortalReady, setCursorPortalReady] = useState(false);
+
+  useEffect(() => {
+    setCursorPortalReady(true);
+  }, []);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -392,9 +398,12 @@ export default function ImmersiveBookScene() {
         <div className="webgl-caption">A LIVING ARCHIVE <span>·</span> MOVE TO EXPLORE</div>
         <div className="webgl-crosshair" aria-hidden="true">+</div>
       </div>
-      <div className={`magnetic-cursor${cursorActive ? " is-active" : ""}`} aria-hidden="true">
-        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" /><path d="M32 18v28M18 32h28" /></svg>
-      </div>
+      {cursorPortalReady && createPortal(
+        <div className={`magnetic-cursor${cursorActive ? " is-active" : ""}`} aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" /><path d="M32 18v28M18 32h28" /></svg>
+        </div>,
+        document.body,
+      )}
       {selected !== null && (
         <div className="book-detail-curtain" role="dialog" aria-modal="true" aria-labelledby="book-detail-title">
           <button className="book-detail-close" onClick={closeDetails} aria-label="Close book details"><X size={20} /></button>
