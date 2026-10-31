@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "An independent second-hand bookshop on Rideau Street in Ottawa. Browse a changing collection of fiction, science fiction, French literature and hard-to-find books.",
   openGraph: {
-    title: "All Books — Rideau Street's Living Archive",
+    title: "All Books — Independent Bookshop on Rideau Street",
     description: "A little bit of everything. A lot of books. 327 Rideau Street, Ottawa.",
     type: "website",
     locale: "en_CA",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10100f",
+  themeColor: "#11100e",
   colorScheme: "dark",
 };
 
