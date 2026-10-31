@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -50,6 +50,19 @@ function BookArtifact({ code, title, subtitle, tone, note }: { code: string; tit
 export default function ArchiveExperience() {
   const root = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle("menu-is-open", menuOpen);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.classList.remove("menu-is-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
 
   useGSAP(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -103,14 +116,8 @@ export default function ArchiveExperience() {
     return () => tiltCleanups.forEach((cleanup) => cleanup());
   }, { scope: root });
 
-  const toggleMenu = () => {
-    menuRef.current?.classList.toggle("menu-open");
-    document.body.classList.toggle("menu-is-open");
-  };
-  const closeMenu = () => {
-    menuRef.current?.classList.remove("menu-open");
-    document.body.classList.remove("menu-is-open");
-  };
+  const toggleMenu = () => setMenuOpen((open) => !open);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <main ref={root} className="site-shell">
@@ -119,18 +126,18 @@ export default function ArchiveExperience() {
         <a href="#top" className="nav-mark" aria-label="All Books home"><span className="mark-symbol">A<span>/</span>B</span><span className="mark-word">ALL BOOKS<small>SECOND-HAND BOOKS · OTTAWA</small></span></a>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#archive">THE ARCHIVE</a><a href="#signal">OUR STORY</a><a href="#coordinates">FIND US</a></nav>
         <a className="header-visit" href="#coordinates"><span className="status-dot" /> VISIT THE STORE <ArrowUpRight size={14} /></a>
-        <button className="menu-toggle" aria-label="Toggle navigation" onClick={toggleMenu}><Menu size={22} /></button>
+        <button className="menu-toggle" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={toggleMenu}><Menu size={22} /></button>
       </header>
-      <div className="mobile-menu" ref={menuRef}><button className="mobile-menu-close" aria-label="Close menu" onClick={closeMenu}><X /></button><a href="#archive" onClick={closeMenu}>THE ARCHIVE <ArrowUpRight /></a><a href="#signal" onClick={closeMenu}>OUR STORY <ArrowUpRight /></a><a href="#coordinates" onClick={closeMenu}>FIND US <ArrowUpRight /></a></div>
+      <div id="mobile-navigation" className={`mobile-menu${menuOpen ? " menu-open" : ""}`} ref={menuRef} aria-hidden={!menuOpen}><button className="mobile-menu-close" aria-label="Close menu" tabIndex={menuOpen ? 0 : -1} onClick={closeMenu}><X /></button><a href="#archive" tabIndex={menuOpen ? 0 : -1} onClick={closeMenu}>THE ARCHIVE <ArrowUpRight /></a><a href="#signal" tabIndex={menuOpen ? 0 : -1} onClick={closeMenu}>OUR STORY <ArrowUpRight /></a><a href="#coordinates" tabIndex={menuOpen ? 0 : -1} onClick={closeMenu}>FIND US <ArrowUpRight /></a></div>
 
       <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" /><div className="hero-halo halo-one parallax-layer" data-speed="-14" /><div className="hero-halo halo-two parallax-layer" data-speed="10" />
         <div className="hero-vertical-code" aria-hidden="true">RIDEAU STREET / LOWER TOWN / OTTAWA</div>
         <div className="hero-content">
-          <div className="hero-meta"><span><span className="status-dot" /> INDEPENDENT BOOKSHOP / OTTAWA</span><span className="meta-right">FIELD NOTES — 001 / 026</span></div>
-          <h1 className="hero-title"><span className="title-line"><SplitText>ALL BOOKS.</SplitText></span><span className="title-line title-outline"><SplitText>ALL OVER.</SplitText></span><span className="title-line title-offset"><SplitText>ALL THE TIME.</SplitText></span></h1>
+          <div className="hero-meta"><span><span className="status-dot" /> INDEPENDENT SECOND-HAND BOOKSHOP / OTTAWA</span><span className="meta-right">A GOOD BOOK IS NEVER OUT OF PLACE</span></div>
+          <h1 className="hero-title"><span className="title-line"><SplitText>GOOD BOOKS.</SplitText></span><span className="title-line title-outline"><SplitText>UNEXPECTED</SplitText></span><span className="title-line title-offset"><SplitText>FINDS.</SplitText></span></h1>
           <div className="hero-bottom">
-            <div className="hero-description"><span className="eyebrow">A BOOKSHOP ON RIDEAU STREET</span><p>A little bit of everything, stacked floor to ceiling. Come in looking for one book and leave with three you never expected to find.</p><div className="hero-actions"><a className="button-primary" href="#archive">EXPLORE THE SHELVES <ArrowDownRight size={16} /></a><a className="text-link" href="#coordinates">GET DIRECTIONS <ArrowUpRight size={15} /></a></div></div>
+            <div className="hero-description"><span className="eyebrow">A BOOKSHOP ON RIDEAU STREET</span><p>A second-hand bookshop full of stories, surprises and well-loved reads. Come in looking for one book. Leave with something you didn’t know you were looking for.</p><div className="hero-actions"><a className="button-primary" href="#archive">EXPLORE THE SHELVES <ArrowDownRight size={16} /></a><a className="text-link" href="#coordinates">GET DIRECTIONS <ArrowUpRight size={15} /></a></div></div>
             <div className="hero-index"><span className="index-label">CURRENT LOCATION</span><strong>327 <span>RIDEAU ST.</span></strong><span className="index-sub">OTTAWA, ON · K1N 5Y4</span></div>
           </div>
         </div>
@@ -144,20 +151,20 @@ export default function ArchiveExperience() {
 
       <section className="manifesto section-pad" id="signal">
         <div className="section-kicker reveal"><span>01 / THE FREQUENCY</span><span>ABOUT THIS PLACE</span></div>
-        <div className="manifesto-grid"><h2 className="manifesto-title reveal">THE INTERNET HAS EVERYTHING.<br /><em>WE HAVE THE BOOK.</em></h2><div className="manifesto-copy reveal"><span className="signal-icon"><AudioLines size={19} /></span><p>There is a particular kind of magic in a bookshop that refuses to fit everything neatly into a grid. All Books is a second-hand bookshop on Rideau Street, packed with stories, oddities and unexpected discoveries.</p><p>No recommendation engine. No endless scroll. Just shelves worth getting lost in — and a person who knows the terrain.</p><a href="#coordinates" className="text-link">FIND YOUR WAY HERE <ArrowUpRight size={15} /></a></div></div>
+        <div className="manifesto-grid"><h2 className="manifesto-title reveal">A BOOKSHOP FOR THE<br /><em>CURIOUS READER.</em></h2><div className="manifesto-copy reveal"><span className="signal-icon"><AudioLines size={19} /></span><p>All Books is an independent second-hand bookshop on Rideau Street. Browse shelves filled with stories, unexpected discoveries and books that deserve another reader.</p><p>From science fiction and French literature to fiction, history and hard-to-find titles, there is always something new to discover. The selection changes, so every visit is a little different.</p><a href="#coordinates" className="text-link">FIND YOUR WAY HERE <ArrowUpRight size={15} /></a></div></div>
         <div className="manifesto-stats reveal"><div><strong>327</strong><span>RIDEAU STREET</span></div><div><strong>∞</strong><span>WAYS TO GET LOST</span></div><div><strong>01</strong><span>VERY REAL BOOKSHOP</span></div><div className="stat-note">A SMALL SPACE<br />WITH A BIG MEMORY.</div></div>
       </section>
 
       <section className="archive section-pad" id="archive">
         <div className="section-kicker reveal"><span>02 / THE LIVING ARCHIVE</span><span>OPEN FILES — 04</span></div>
-        <div className="archive-heading reveal"><div><span className="eyebrow">SOMEWHERE IN THESE STACKS</span><h2>FOLLOW A<br /><em>THREAD.</em></h2></div><p>These are a few of the worlds All Books is known for. The shelves move, the discoveries change. That's the point.</p></div>
+        <div className="archive-heading reveal"><div><span className="eyebrow">SOMEWHERE IN THESE STACKS</span><h2>FIND YOUR<br /><em>NEXT READ.</em></h2></div><p>Start with a few of the shelves and see where they take you. The selection changes, so the best way to discover what is here is to visit.</p></div>
         <div className="shelf-list">{shelves.map((shelf) => <a className={`shelf-row shelf-${shelf.color}`} href="#coordinates" key={shelf.index}><span className="shelf-index">{shelf.index}</span><span className="shelf-glyph">{shelf.glyph}</span><span className="shelf-main"><strong>{shelf.name}</strong><small>{shelf.detail}</small></span><span className="shelf-tag">{shelf.tag}</span><span className="shelf-arrow"><ArrowUpRight size={20} /></span></a>)}</div>
         <div className="archive-footnote reveal"><span><Sparkles size={14} /> NO TWO VISITS ARE THE SAME</span><span>INVENTORY CHANGES CONSTANTLY — COME BROWSE.</span></div>
       </section>
 
       <section className="artifact-section">
         <div className="artifact-backdrop" aria-hidden="true" /><div className="section-kicker reveal"><span>03 / OBJECTS OF INTEREST</span><span>AN EXERCISE IN DISCOVERY</span></div>
-        <div className="artifact-heading reveal"><h2>THE BEAUTY<br />OF THE <em>UNEXPECTED.</em></h2><p>Some books find you. Some you have to dig for. Either way, keep looking.</p></div>
+        <div className="artifact-heading reveal"><h2>THE JOY OF<br /><em>DISCOVERY.</em></h2><p>A few imagined cover designs inspired by the kinds of stories you might find. Actual titles and availability vary in store.</p></div>
         <div className="artifact-gallery"><div className="artifact-note note-left float-orbit"><span>ARCHIVE NOTE / A</span><strong>OLD WORLDS.<br />NEW WINDOWS.</strong><small>THE PAST IS STILL IN PRINT.</small></div><BookArtifact code="AB—001" title="OTHER WORLDS" subtitle="SCIENCE FICTION" tone="violet" note="EXPLORE THE UNKNOWN" /><BookArtifact code="AB—002" title="LOST LANGUAGES" subtitle="FRENCH LITERATURE" tone="amber" note="VOICES ACROSS TIME" /><BookArtifact code="AB—003" title="THE LONG VIEW" subtitle="HISTORY / IDEAS" tone="mint" note="THOUGHTS THAT REMAIN" /><div className="artifact-note note-right float-orbit"><span>ARCHIVE NOTE / B</span><strong>OUT OF PRINT.<br />NOT OUT OF TIME.</strong><small>THE HUNT IS THE WHOLE POINT.</small></div></div>
         <div className="artifact-disclaimer">ILLUSTRATIVE ARCHIVE ARTWORK · NOT A LIVE INVENTORY FEED</div>
       </section>
@@ -165,12 +172,12 @@ export default function ArchiveExperience() {
       <section className="visit section-pad" id="coordinates">
         <div className="section-kicker reveal"><span>04 / THE REAL WORLD</span><span>COORDINATES LOCKED</span></div>
         <div className="visit-grid">
-          <div className="visit-copy reveal"><span className="eyebrow"><span className="status-dot" /> YOU ARE CLEARED TO BROWSE</span><h2>COME FIND<br /><em>YOUR NEXT</em><br />OBSESSION.</h2><p>We're on Rideau Street, right beside the ByTowne Cinema. Look for the books. There will be a lot of them.</p><div className="visit-address"><MapPin size={18} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button-primary" href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer">OPEN NAVIGATION <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={15} /> (613) 789-9544</a><a className="phone-link" href="https://www.abebooks.com/all-books-ottawa-ottawa-on-canada/52468515/sf" target="_blank" rel="noreferrer">ABEBOOKS LISTING <ArrowUpRight size={13} /></a></div><div className="hours-note"><span className="hours-dot" /> HOURS CHANGE — CALL AHEAD BEFORE MAKING THE TRIP.</div></div>
+          <div className="visit-copy reveal"><span className="eyebrow"><span className="status-dot" /> DROP IN AND BROWSE</span><h2>COME FIND<br /><em>YOUR NEXT</em><br />GOOD READ.</h2><p>Visit us on Rideau Street, beside the ByTowne Cinema. Stop in, browse the shelves and see what catches your eye.</p><div className="visit-address"><MapPin size={18} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button-primary" href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer">OPEN NAVIGATION <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={15} /> (613) 789-9544</a><a className="phone-link" href="https://www.abebooks.com/all-books-ottawa-ottawa-on-canada/52468515/sf" target="_blank" rel="noreferrer">ABEBOOKS LISTING <ArrowUpRight size={13} /></a></div><div className="hours-note"><span className="hours-dot" /> HOURS CHANGE — CALL AHEAD BEFORE MAKING THE TRIP.</div></div>
           <div className="map-terminal reveal"><div className="terminal-top"><span><Crosshair size={14} /> LOCAL POSITIONING SYSTEM</span><span>MAP / 001</span></div><div className="wire-map" role="img" aria-label="Schematic map showing All Books at 327 Rideau Street near the Rideau Street and King Edward Avenue intersection, beside ByTowne Cinema."><div className="map-grid" /><div className="street street-horizontal"><span>RIDEAU STREET</span></div><div className="street street-vertical"><span>KING EDWARD AVE.</span></div><div className="map-block block-a" /><div className="map-block block-b" /><div className="map-block block-c" /><div className="map-block block-d" /><div className="map-block block-e" /><div className="map-node node-cinema"><span>BYTOWNE<br />CINEMA</span></div><div className="map-target"><span className="target-ring ring-outer" /><span className="target-ring ring-inner" /><span className="target-core"><Crosshair size={17} /></span><span className="target-label">ALL BOOKS <small>327 RIDEAU ST.</small></span></div><div className="map-north">N <ArrowUpRight size={12} /></div><div className="map-scale">SCHEMATIC / NOT TO SCALE</div></div><div className="terminal-bottom"><span><span className="status-dot" /> DESTINATION CONFIRMED</span><span>LOWER TOWN · OTTAWA, CA</span></div></div>
         </div>
       </section>
 
-      <section className="last-call"><div className="last-call-mark">A<span>/</span>B</div><div className="last-call-copy"><span className="eyebrow">END OF TRANSMISSION</span><h2>GO GET<br /><em>LOST.</em></h2></div><a href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer" className="last-call-link">327 RIDEAU STREET <ArrowUpRight size={18} /></a><div className="last-call-orbit" aria-hidden="true"><Orbit /></div></section>
+      <section className="last-call"><div className="last-call-mark">A<span>/</span>B</div><div className="last-call-copy"><span className="eyebrow">SEE YOU BETWEEN THE SHELVES</span><h2>COME SAY<br /><em>HELLO.</em></h2></div><a href="https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa" target="_blank" rel="noreferrer" className="last-call-link">327 RIDEAU STREET <ArrowUpRight size={18} /></a><div className="last-call-orbit" aria-hidden="true"><Orbit /></div></section>
       <footer className="site-footer"><a href="#top" className="footer-brand">ALL BOOKS<span>®</span></a><span>INDEPENDENTLY MINDED. DEEPLY STACKED.</span><div className="footer-links"><a href="tel:+16137899544">CALL THE SHOP</a><a href="#coordinates">FIND US <MoveUpRight size={12} /></a></div><span className="footer-copy">© {new Date().getFullYear()} ALL BOOKS · RIDEAU STREET, OTTAWA</span></footer>
     </main>
   );
