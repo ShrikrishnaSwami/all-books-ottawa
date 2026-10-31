@@ -154,6 +154,7 @@ export default function ImmersiveBookScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const selectedRef = useRef<number | null>(null);
+  const resetSceneRef = useRef<() => void>(() => {});
   const [cursorActive, setCursorActive] = useState(false);
 
   useEffect(() => {
@@ -199,6 +200,16 @@ export default function ImmersiveBookScene() {
       rigs.push(rig);
     }
 
+    resetSceneRef.current = () => {
+      const active = rigs.find((rig) => rig.index === selectedRef.current);
+      if (!active) return;
+      active.opened = false;
+      gsap.to(active.group.position, { x: Math.cos(active.index * 2.399) * (1.7 + (active.index % 3) * 0.48), y: Math.sin(active.index * 2.399) * (1.4 + (active.index % 4) * 0.3), z: (active.index % 5 - 2) * 0.42, duration: 0.8, ease: "power3.inOut" });
+      gsap.to(active.group.rotation, { x: 0, y: 0, z: 0, duration: 0.8, ease: "power3.inOut" });
+      gsap.to(active.group.scale, { x: 0.78 + (active.index % 3) * 0.08, y: 0.78 + (active.index % 3) * 0.08, z: 0.78 + (active.index % 3) * 0.08, duration: 0.8, ease: "power3.inOut" });
+      gsap.to(active.coverPivot.rotation, { y: 0, duration: 0.65, ease: "power3.inOut" });
+    };
+
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2(2, 2);
     const targetRotation = new THREE.Vector2();
@@ -219,7 +230,12 @@ export default function ImmersiveBookScene() {
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(mount);
 
+    const cursor = document.querySelector<HTMLElement>(".magnetic-cursor");
+    const cursorLeft = cursor ? gsap.quickTo(cursor, "left", { duration: 0.16, ease: "power3.out" }) : null;
+    const cursorTop = cursor ? gsap.quickTo(cursor, "top", { duration: 0.16, ease: "power3.out" }) : null;
     const handlePointerMove = (event: PointerEvent) => {
+      cursorLeft?.(event.clientX);
+      cursorTop?.(event.clientY);
       const bounds = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
