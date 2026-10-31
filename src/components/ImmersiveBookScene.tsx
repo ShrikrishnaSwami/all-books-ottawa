@@ -52,9 +52,11 @@ const fragmentShader = `
     float sweep = fract(uTime * 0.16);
     float band = 1.0 - smoothstep(0.0, 0.2, abs(vUv.x - sweep));
     float shimmer = band * uHover;
-    vec3 rainbow = 0.5 + 0.5 * cos(6.2831 * (vUv.xyx + vec3(0.0, 0.33, 0.67) + uTime * 0.06));
+    vec3 warmGold = vec3(1.0, 0.72, 0.42);
+    vec3 softPaper = vec3(0.95, 0.84, 0.65);
     float edge = smoothstep(0.0, 0.12, vUv.x) * (1.0 - smoothstep(0.88, 1.0, vUv.x));
-    gl_FragColor = vec4(mix(base.rgb, rainbow, shimmer * 0.32 * edge), base.a);
+    float sheen = shimmer * edge * 0.24;
+    gl_FragColor = vec4(mix(base.rgb, mix(warmGold, softPaper, vUv.y * 0.35), sheen), base.a);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
   }
@@ -148,12 +150,18 @@ export default function ImmersiveBookScene() {
     if (!mount) return;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2("#11100e", 0.045);
+    scene.fog = new THREE.FogExp2("#17130f", 0.038);
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
     camera.position.set(0, 0, 9.2);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: !isMobileLayout,
+      powerPreference: isMobileLayout ? "low-power" : "high-performance",
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobileLayout ? 1 : 1.35));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.12;
@@ -161,20 +169,23 @@ export default function ImmersiveBookScene() {
     renderer.domElement.setAttribute("aria-label", "Interactive floating three-dimensional book collection");
     mount.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight("#ead9bd", 1.45));
-    const keyLight = new THREE.PointLight("#f4c58a", 58, 24);
+    scene.add(new THREE.AmbientLight("#f0dfc2", 1.25));
+    const keyLight = new THREE.PointLight("#e8b879", 48, 25);
     keyLight.position.set(3.5, 4, 5);
     scene.add(keyLight);
-    const rimLight = new THREE.PointLight("#a6b5a0", 28, 20);
+    const rimLight = new THREE.PointLight("#a6a17b", 24, 20);
     rimLight.position.set(-4, -2, -3);
     scene.add(rimLight);
+    const fillLight = new THREE.PointLight("#c58a55", 13, 18);
+    fillLight.position.set(-1, 3, 2);
+    scene.add(fillLight);
 
     const cloud = new THREE.Group();
     scene.add(cloud);
     const rigs: BookRig[] = [];
     const spread = 14;
     const originalPositions: THREE.Vector3[] = [];
-    const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
+    // Keep one layout decision for the scene lifetime; avoid querying media state every frame.
     // Restore the elliptical orbit that frames the headline.
     const orbitCenterX = 0;
     const orbitRadiusX = isMobileLayout ? 1.45 : 3.55;
@@ -305,18 +316,21 @@ export default function ImmersiveBookScene() {
       if (disposed) return;
       const elapsed = clock.getElapsedTime();
       currentRotation.lerp(targetRotation, 0.035);
-      cloud.rotation.x = currentRotation.x + Math.sin(elapsed * 0.18) * 0.018;
-      cloud.rotation.y = currentRotation.y;
+      const motionScale = prefersReducedMotion ? 0 : 1;
+      cloud.rotation.x = currentRotation.x + Math.sin(elapsed * 0.18) * 0.024 * motionScale;
+      cloud.rotation.y = currentRotation.y + Math.sin(elapsed * 0.12) * 0.018 * motionScale;
       rigs.forEach((rig, index) => {
         if (selectedRef.current !== null) return;
         const angle = (index / spread) * Math.PI * 2 + elapsed * 0.16;
-        const mobile = window.matchMedia("(max-width: 760px)").matches;
-        const radiusX = mobile ? 1.45 : 3.55;
-        const radiusY = mobile ? 1.05 : 2.42;
+        const radiusX = isMobileLayout ? 1.45 : 3.55;
+        const radiusY = isMobileLayout ? 1.05 : 2.42;
+        const drift = prefersReducedMotion ? 0 : 1;
         rig.group.position.x = Math.cos(angle) * radiusX;
-        rig.group.position.y = Math.sin(angle) * radiusY + Math.sin(elapsed * 0.7 + index) * 0.08;
-        rig.group.position.z = Math.sin(angle * 2) * 0.38;
-        rig.group.rotation.z = Math.sin(angle * 2) * 0.045;
+        rig.group.position.y = Math.sin(angle) * radiusY + Math.sin(elapsed * 0.7 + index) * 0.11 * drift;
+        rig.group.position.z = Math.sin(angle * 2) * 0.46;
+        rig.group.rotation.x = Math.sin(elapsed * 0.32 + index * 0.7) * 0.035 * drift;
+        rig.group.rotation.y = Math.cos(elapsed * 0.24 + index) * 0.09 * drift;
+        rig.group.rotation.z = Math.sin(angle * 2) * 0.055;
       });
       raycaster.setFromCamera(pointer, camera);
       const intersections = pointerOnCanvas ? raycaster.intersectObjects(rigs.map((rig) => rig.group), true) : [];
