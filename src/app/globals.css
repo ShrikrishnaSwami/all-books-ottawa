@@ -635,3 +635,61 @@ button { font: inherit; }
   .webgl-kinetic-word.word-a { top:30%; }
   .webgl-kinetic-word.word-b { bottom:20%; }
 }
+
+
+/* Immersive hero cleanup: keep the book cloud in its own visual lane. */
+.hero { isolation: isolate; }
+.hero-content { z-index: 4; max-width: 100%; }
+.hero-title { max-width: 58vw; font-size: clamp(64px, 8.4vw, 132px); }
+.hero-meta { max-width: 620px; }
+.hero-bottom { max-width: 650px; }
+.webgl-book-stage {
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  contain: layout paint;
+}
+.book-webgl-canvas {
+  pointer-events: auto;
+  cursor: none;
+}
+.webgl-kinetic-word { opacity: .5; }
+.webgl-caption { z-index: 3; right: 5.5vw; bottom: 13%; }
+.webgl-crosshair { display: none; }
+.hero-footerline { z-index: 5; }
+.magnetic-cursor {
+  z-index: 200;
+  width: 38px;
+  height: 38px;
+  opacity: 0;
+  mix-blend-mode: difference;
+  will-change: left, top, width, height;
+}
+.magnetic-cursor.is-active { width: 64px; height: 64px; }
+@media (hover: hover) and (pointer: fine) {
+  body, body a, body button, body [role="button"] { cursor: none !important; }
+}
+@media (max-width: 1100px) and (min-width: 761px) {
+  .hero-title { font-size: clamp(62px, 8.2vw, 100px); max-width: 62vw; }
+  .hero-bottom { max-width: 560px; }
+}
+@media (max-width: 760px) {
+  .hero-title { max-width: 100%; font-size: clamp(43px, 11.2vw, 78px); }
+  .hero-content { z-index: 4; }
+  .webgl-book-stage {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 270px;
+    margin: 6px 0 10px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .book-webgl-canvas { pointer-events: auto; }
+  .webgl-kinetic-word { font-size: clamp(60px, 16vw, 110px); }
+  .webgl-kinetic-word.word-a { top: 25%; }
+  .webgl-kinetic-word.word-b { bottom: 16%; }
+  .webgl-caption { right: 5vw; bottom: 5%; font-size: 6px; }
+  .hero-footerline { position: relative; z-index: 5; }
+  .magnetic-cursor { display: none; }
+}
