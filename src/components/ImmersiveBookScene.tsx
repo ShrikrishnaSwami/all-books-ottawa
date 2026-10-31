@@ -168,24 +168,28 @@ export default function ImmersiveBookScene() {
     const rigs: BookRig[] = [];
     const spread = 14;
     const originalPositions: THREE.Vector3[] = [];
+    const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
+    // A deliberate elliptical orbit frames the headline instead of scattering books randomly.
+    const orbitCenterX = isMobileLayout ? 0 : -1.15;
+    const orbitRadiusX = isMobileLayout ? 1.65 : 3.75;
+    const orbitRadiusY = isMobileLayout ? 0.92 : 2.42;
     for (let index = 0; index < spread; index += 1) {
       const rig = makeBook(index);
-      const angle = index * 2.399;
-      const radius = 1.35 + (index % 3) * 0.32;
+      const angle = (index / spread) * Math.PI * 2 - Math.PI / 2;
       const position = new THREE.Vector3(
-        Math.cos(angle) * radius,
-        Math.sin(angle) * (1.05 + (index % 4) * 0.12),
-        (index % 5 - 2) * 0.22,
+        orbitCenterX + Math.cos(angle) * orbitRadiusX,
+        Math.sin(angle) * orbitRadiusY,
+        Math.sin(angle * 2) * 0.42 + (index % 3) * 0.08,
       );
       originalPositions.push(position.clone());
       rig.group.position.copy(position);
-      // Keep the illustrated covers facing the visitor instead of showing random book backs.
+      // Faces stay readable while the complete collection slowly revolves around the headline.
       rig.group.rotation.set(
-        Math.sin(index * 1.7) * 0.09,
-        Math.cos(index * 2.1) * 0.16,
-        Math.sin(index * 2.8) * 0.13,
+        Math.sin(angle) * 0.08,
+        Math.cos(angle) * 0.12,
+        Math.cos(angle) * 0.12,
       );
-      rig.group.scale.setScalar(0.64 + (index % 3) * 0.035);
+      rig.group.scale.setScalar(isMobileLayout ? 0.39 + (index % 2) * 0.025 : 0.58 + (index % 3) * 0.025);
       cloud.add(rig.group);
       rigs.push(rig);
     }
@@ -210,8 +214,8 @@ export default function ImmersiveBookScene() {
       camera.aspect = width / Math.max(height, 1);
       camera.position.z = mobile ? 8.8 : 9.2;
       camera.updateProjectionMatrix();
-      cloud.position.set(mobile ? 0 : width < 1100 ? 1.75 : 2.45, 0, 0);
-      cloud.scale.setScalar(mobile ? 0.55 : width < 1100 ? 0.68 : 0.76);
+      cloud.position.set(mobile ? 0 : width < 1100 ? -0.85 : -1.15, 0, 0);
+      cloud.scale.setScalar(mobile ? 0.9 : width < 1100 ? 0.82 : 0.88);
       renderer.setSize(width, height, false);
     };
     resize();
@@ -257,7 +261,7 @@ export default function ImmersiveBookScene() {
       const rig = hovered;
       selectedRef.current = rig.index;
       setSelected(rig.index);
-      gsap.to(rig.group.position, { x: 0, y: 0, z: 2.6, duration: 0.9, ease: "power4.inOut" });
+      gsap.to(rig.group.position, { x: -cloud.position.x, y: 0, z: 2.6, duration: 0.9, ease: "power4.inOut" });
       gsap.to(rig.group.rotation, { x: 0, y: 0, z: 0, duration: 0.9, ease: "power4.inOut" });
       gsap.to(rig.group.scale, { x: 1.45, y: 1.45, z: 1.45, duration: 0.9, ease: "power4.inOut" });
       gsap.delayedCall(0.62, () => {
@@ -296,8 +300,8 @@ export default function ImmersiveBookScene() {
       if (disposed) return;
       const elapsed = clock.getElapsedTime();
       currentRotation.lerp(targetRotation, 0.035);
-      cloud.rotation.x = currentRotation.x;
-      cloud.rotation.y = currentRotation.y;
+      cloud.rotation.x = currentRotation.x + Math.sin(elapsed * 0.18) * 0.025;
+      cloud.rotation.y = currentRotation.y + elapsed * 0.035;
       raycaster.setFromCamera(pointer, camera);
       const intersections = pointerOnCanvas ? raycaster.intersectObjects(rigs.map((rig) => rig.group), true) : [];
       const next = intersections.length ? findBook(intersections[0].object) : null;
