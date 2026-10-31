@@ -154,7 +154,7 @@ export default function ImmersiveBookScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const selectedRef = useRef<number | null>(null);
-  const resetSceneRef = useRef<() => void>(() => {});
+  const resetSceneRef = useRef<(index: number) => void>(() => {});
   const [cursorActive, setCursorActive] = useState(false);
 
   useEffect(() => {
@@ -200,8 +200,8 @@ export default function ImmersiveBookScene() {
       rigs.push(rig);
     }
 
-    resetSceneRef.current = () => {
-      const active = rigs.find((rig) => rig.index === selectedRef.current);
+    resetSceneRef.current = (index: number) => {
+      const active = rigs.find((rig) => rig.index === index);
       if (!active) return;
       active.opened = false;
       gsap.to(active.group.position, { x: Math.cos(active.index * 2.399) * (1.7 + (active.index % 3) * 0.48), y: Math.sin(active.index * 2.399) * (1.4 + (active.index % 4) * 0.3), z: (active.index % 5 - 2) * 0.42, duration: 0.8, ease: "power3.inOut" });
@@ -250,8 +250,8 @@ export default function ImmersiveBookScene() {
       if (!hovered || selectedRef.current !== null) return;
       const rig = hovered;
       selectedRef.current = rig.index;
-      const viewTransition = (document as Document & { startViewTransition?: (callback: () => void) => { ready: Promise<void> } }).startViewTransition;
-      if (viewTransition) viewTransition(() => setSelected(rig.index));
+      const transitionDocument = document as Document & { startViewTransition?: (callback: () => void) => unknown };
+      if (transitionDocument.startViewTransition) transitionDocument.startViewTransition(() => setSelected(rig.index));
       else setSelected(rig.index);
       gsap.to(rig.group.position, { x: 0, y: 0, z: 3.1, duration: 1.1, ease: "power4.inOut" });
       gsap.to(rig.group.rotation, { x: 0, y: 0, z: 0, duration: 1.1, ease: "power4.inOut" });
@@ -345,9 +345,11 @@ export default function ImmersiveBookScene() {
   }, []);
 
   const closeDetails = () => {
+    const activeIndex = selectedRef.current;
+    if (activeIndex !== null) resetSceneRef.current(activeIndex);
     selectedRef.current = null;
-    const viewTransition = (document as Document & { startViewTransition?: (callback: () => void) => { ready: Promise<void> } }).startViewTransition;
-    if (viewTransition) viewTransition(() => setSelected(null));
+    const transitionDocument = document as Document & { startViewTransition?: (callback: () => void) => unknown };
+    if (transitionDocument.startViewTransition) transitionDocument.startViewTransition(() => setSelected(null));
     else setSelected(null);
   };
 
