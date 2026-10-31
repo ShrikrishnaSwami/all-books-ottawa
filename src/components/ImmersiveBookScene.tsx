@@ -321,7 +321,8 @@ export default function ImmersiveBookScene() {
       cloud.rotation.y = currentRotation.y + Math.sin(elapsed * 0.12) * 0.018 * motionScale;
       rigs.forEach((rig, index) => {
         if (selectedRef.current !== null) return;
-        const angle = (index / spread) * Math.PI * 2 + elapsed * 0.16;
+        const orbitMotion = prefersReducedMotion ? 0 : elapsed * 0.16;
+        const angle = (index / spread) * Math.PI * 2 + orbitMotion;
         const radiusX = isMobileLayout ? 1.45 : 3.55;
         const radiusY = isMobileLayout ? 1.05 : 2.42;
         const drift = prefersReducedMotion ? 0 : 1;
