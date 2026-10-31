@@ -618,3 +618,20 @@ button { font: inherit; }
   .book-detail-curtain { animation:none; }
   ::view-transition-old(book-detail),::view-transition-new(book-detail) { animation:none; }
 }
+
+
+.webgl-kinetic-word {
+  position:absolute; z-index:1; left:-5vw; color:rgba(242,238,228,.055);
+  font:700 clamp(76px,15vw,220px)/.8 var(--display); letter-spacing:-.105em;
+  white-space:nowrap; pointer-events:none; user-select:none; will-change:transform;
+}
+.webgl-kinetic-word.word-a { top:19%; }
+.webgl-kinetic-word.word-b {
+  left:auto; right:-5vw; bottom:17%; color:transparent;
+  -webkit-text-stroke:1px rgba(217,180,119,.16);
+}
+@media (max-width:760px) {
+  .webgl-kinetic-word { font-size:clamp(70px,19vw,140px); }
+  .webgl-kinetic-word.word-a { top:30%; }
+  .webgl-kinetic-word.word-b { bottom:20%; }
+}
