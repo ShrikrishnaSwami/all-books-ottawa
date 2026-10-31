@@ -2,12 +2,12 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "All Books — Rideau Street's Living Archive",
+  title: "All Books — Independent Bookshop on Rideau Street",
   description:
-    "A second-hand bookstore packed floor-to-ceiling on Rideau Street in Ottawa. Come for the hunt. Leave with a story.",
+    "An independent second-hand bookshop on Rideau Street in Ottawa. Browse a changing collection of fiction, science fiction, French literature and hard-to-find books.",
   openGraph: {
     title: "All Books — Rideau Street's Living Archive",
-    description: "A little chaos. A lot of books. 327 Rideau Street, Ottawa.",
+    description: "A little bit of everything. A lot of books. 327 Rideau Street, Ottawa.",
     type: "website",
     locale: "en_CA",
   },
