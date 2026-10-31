@@ -169,18 +169,26 @@ export default function ImmersiveBookScene() {
     const spread = 14;
     const originalPositions: THREE.Vector3[] = [];
     const isMobileLayout = window.matchMedia("(max-width: 760px)").matches;
-    // Books travel along one horizontal track through the exact centre of the headline.
-    const desktopTrackWidth = 15.5;
-    const mobileTrackWidth = 7.2;
-    const trackWidth = isMobileLayout ? mobileTrackWidth : desktopTrackWidth;
+    // Restore the elliptical orbit that frames the headline.
+    const orbitCenterX = 0;
+    const orbitRadiusX = isMobileLayout ? 1.45 : 3.55;
+    const orbitRadiusY = isMobileLayout ? 1.05 : 2.42;
     for (let index = 0; index < spread; index += 1) {
       const rig = makeBook(index);
-      const x = -trackWidth / 2 + (index / spread) * trackWidth;
-      const position = new THREE.Vector3(x, 0, Math.sin(index * 1.7) * 0.32);
+      const angle = (index / spread) * Math.PI * 2;
+      const position = new THREE.Vector3(
+        orbitCenterX + Math.cos(angle) * orbitRadiusX,
+        Math.sin(angle) * orbitRadiusY,
+        Math.sin(angle * 2) * 0.42 + (index % 3) * 0.08,
+      );
       originalPositions.push(position.clone());
       rig.group.position.copy(position);
-      rig.group.rotation.set(0, Math.sin(index * 1.3) * 0.12, Math.sin(index * 1.9) * 0.035);
-      rig.group.scale.setScalar(isMobileLayout ? 0.36 + (index % 2) * 0.025 : 0.54 + (index % 3) * 0.025);
+      rig.group.rotation.set(
+        Math.sin(angle) * 0.045,
+        Math.cos(angle) * 0.1,
+        Math.sin(angle * 2) * 0.045,
+      );
+      rig.group.scale.setScalar(isMobileLayout ? 0.39 + (index % 2) * 0.025 : 0.58 + (index % 3) * 0.025);
       cloud.add(rig.group);
       rigs.push(rig);
     }
@@ -270,8 +278,22 @@ export default function ImmersiveBookScene() {
       xPercent: -12, ease: "none",
       scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 },
     });
-    const positionTweens: gsap.core.Tween[] = [];
-    const rotationTweens: gsap.core.Tween[] = [];
+    const positionTweens = rigs.map((rig, index) => {
+      const angle = index * 0.9;
+      return gsap.to(rig.group.position, {
+        x: Math.cos(angle) * 0.75,
+        y: (index - (spread - 1) / 2) * 0.19,
+        z: Math.sin(angle) * 0.5,
+        ease: "none",
+        scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "top top", scrub: 1 },
+      });
+    });
+    const rotationTweens = rigs.map((rig, index) => gsap.to(rig.group.rotation, {
+      y: Math.cos(index) * 0.2,
+      z: Math.sin(index * 0.9) * 0.08,
+      ease: "none",
+      scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "top top", scrub: 1 },
+    }));
 
     const tick = () => {
       if (disposed) return;
@@ -281,17 +303,14 @@ export default function ImmersiveBookScene() {
       cloud.rotation.y = currentRotation.y;
       rigs.forEach((rig, index) => {
         if (selectedRef.current !== null) return;
+        const angle = (index / spread) * Math.PI * 2 + elapsed * 0.16;
         const mobile = window.matchMedia("(max-width: 760px)").matches;
-        const trackWidth = mobile ? 7.2 : 15.5;
-        const spacing = trackWidth / spread;
-        const speed = mobile ? 0.34 : 0.52;
-        const wrapped = ((-trackWidth / 2 + index * spacing + elapsed * speed + trackWidth / 2) % trackWidth + trackWidth) % trackWidth;
-        rig.group.position.x = wrapped - trackWidth / 2;
-        rig.group.position.y = Math.sin(elapsed * 0.65 + index * 0.8) * (mobile ? 0.035 : 0.055);
-        rig.group.position.z = Math.sin(elapsed * 0.42 + index * 0.9) * 0.28;
-        rig.group.rotation.x = Math.sin(elapsed * 0.45 + index) * 0.025;
-        rig.group.rotation.y = Math.sin(elapsed * 0.35 + index * 1.2) * 0.13;
-        rig.group.rotation.z = Math.sin(elapsed * 0.4 + index) * 0.025;
+        const radiusX = mobile ? 1.45 : 3.55;
+        const radiusY = mobile ? 1.05 : 2.42;
+        rig.group.position.x = Math.cos(angle) * radiusX;
+        rig.group.position.y = Math.sin(angle) * radiusY + Math.sin(elapsed * 0.7 + index) * 0.08;
+        rig.group.position.z = Math.sin(angle * 2) * 0.38;
+        rig.group.rotation.z = Math.sin(angle * 2) * 0.045;
       });
       raycaster.setFromCamera(pointer, camera);
       const intersections = pointerOnCanvas ? raycaster.intersectObjects(rigs.map((rig) => rig.group), true) : [];
