@@ -303,3 +303,9 @@ button { color: inherit; }
   *,*::before,*::after { animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; }
   .quote-track { animation:none; }
 }
+
+
+/* Preserve physical depth in the interactive shelf. */
+.book-spines { transform-style: preserve-3d; }
+.spine-button { transform-style: preserve-3d; backface-visibility: hidden; }
+.spine-button:hover { box-shadow: inset 5px 0 8px rgba(255,255,255,.09), inset -6px 0 9px rgba(0,0,0,.2), 12px 20px 24px rgba(0,0,0,.4); }
