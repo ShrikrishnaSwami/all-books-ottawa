@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Bookmark, BookOpen,
-  Check, Compass, Feather, MapPin, Menu, Minus, Phone, Plus, Sparkles, X
+  ArrowDown, ArrowRight, ArrowUpRight, Bookmark, BookOpen,
+  Check, Compass, Feather, MapPin, Menu, Minus, Phone, Sparkles, X
 } from "lucide-react";
 
 type ShelfBook = {
@@ -79,25 +79,44 @@ export default function ArchiveExperience() {
   const [revealed, setRevealed] = useState(false);
   const [mysteryIndex, setMysteryIndex] = useState(0);
   const [saved, setSaved] = useState<string[]>([]);
+  const [storageReady, setStorageReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
     try {
       const stored = window.localStorage.getItem("all-books-reading-nook");
-      if (stored) setSaved(JSON.parse(stored) as string[]);
+      if (stored) {
+        const parsed: unknown = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) setSaved(parsed);
+      }
     } catch {
       setSaved([]);
+    } finally {
+      setStorageReady(true);
     }
   }, []);
 
   useEffect(() => {
+    if (!storageReady) return;
     try {
       window.localStorage.setItem("all-books-reading-nook", JSON.stringify(saved));
     } catch {
       // The reading nook remains usable for this session if storage is unavailable.
     }
   }, [saved]);
+
+  useEffect(() => {
+    if (!selected && !menuOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelected(null);
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selected, menuOpen]);
 
   useEffect(() => {
     if (!notice) return;
