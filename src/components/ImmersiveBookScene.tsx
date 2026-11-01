@@ -18,20 +18,20 @@ type BookRig = {
 };
 
 const titles = [
-  ["THE HUMAN INDEX", "FICTION / 001", "#9a593d"],
-  ["DUST & STARS", "SCIENCE FICTION", "#354e5b"],
-  ["A MAP OF SILENCE", "LITERATURE", "#7a493d"],
-  ["THE OTHER CITY", "ESSAYS / 004", "#58624b"],
-  ["NIGHT ARCHIVE", "RARE EDITIONS", "#594a68"],
-  ["WILD GEOGRAPHIES", "TRAVEL / 006", "#80643e"],
+  ["THE HUMAN INDEX", "MODERN FICTION", "#9a593d"],
+  ["A MAP OF SILENCE", "LITERATURE", "#76524b"],
   ["THE LONG MEMORY", "HISTORY", "#465a4c"],
-  ["BLUE HOUR", "POETRY", "#344c66"],
-  ["SMALL UNIVERSES", "SHORT STORIES", "#8b6849"],
+  ["THE COMMON GOOD", "POLITICAL THOUGHT", "#80643e"],
+  ["THE THINKING LIFE", "PHILOSOPHY", "#594a68"],
+  ["WILD GEOGRAPHIES", "SCIENCE & NATURE", "#58624b"],
+  ["BLUE HOUR", "POETRY & CLASSICS", "#344c66"],
   ["LOST LANGUAGE", "FRENCH LITERATURE", "#76524b"],
-  ["AFTER THE END", "SPECULATIVE", "#46515d"],
-  ["PAPER WORLDS", "ART & IDEAS", "#6e6349"],
-  ["THE LAST LIBRARY", "FICTION", "#65453d"],
-  ["STRANGE WEATHER", "SCIENCE FICTION", "#425c59"],
+  ["THE OTHER CITY", "ECONOMICS & SOCIETY", "#58624b"],
+  ["SMALL UNIVERSES", "SHORT STORIES", "#8b6849"],
+  ["NIGHT ARCHIVE", "RARE & OUT OF PRINT", "#594a68"],
+  ["THE OPEN SHELF", "CRIME & MYSTERY", "#65453d"],
+  ["PAPER WORLDS", "ESSAYS & IDEAS", "#6e6349"],
+  ["OLD WORLDS", "WORLD HISTORY", "#425c59"],
 ];
 
 const vertexShader = `
@@ -222,6 +222,31 @@ export default function ImmersiveBookScene() {
     let animationFrame = 0;
     let disposed = false;
     let pointerOnCanvas = false;
+    let pageVisible = document.visibilityState === "visible";
+    let stageVisible = true;
+
+    const stopFrame = () => {
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    };
+    const syncAnimation = () => {
+      if (disposed) return;
+      if (pageVisible && stageVisible && !animationFrame) {
+        animationFrame = window.requestAnimationFrame(tick);
+      } else if (!pageVisible || !stageVisible) {
+        stopFrame();
+      }
+    };
+    const handleVisibility = () => {
+      pageVisible = document.visibilityState === "visible";
+      syncAnimation();
+    };
+    const stageObserver = new IntersectionObserver(([entry]) => {
+      stageVisible = entry.isIntersecting;
+      syncAnimation();
+    }, { threshold: 0.01 });
+    stageObserver.observe(mount);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     const resize = () => {
       const width = mount.clientWidth || window.innerWidth;
@@ -313,7 +338,8 @@ export default function ImmersiveBookScene() {
     }));
 
     const tick = () => {
-      if (disposed) return;
+      animationFrame = 0;
+      if (disposed || !pageVisible || !stageVisible) return;
       const elapsed = clock.getElapsedTime();
       currentRotation.lerp(targetRotation, 0.035);
       const motionScale = prefersReducedMotion ? 0 : 1;
@@ -349,9 +375,10 @@ export default function ImmersiveBookScene() {
         }
       });
       renderer.render(scene, camera);
-      animationFrame = window.requestAnimationFrame(tick);
+      animationFrame = 0;
+      if (pageVisible && stageVisible) animationFrame = window.requestAnimationFrame(tick);
     };
-    tick();
+    if (pageVisible && stageVisible) animationFrame = window.requestAnimationFrame(tick);
 
     resetSceneRef.current = (index: number) => {
       const active = rigs[index];
@@ -373,7 +400,9 @@ export default function ImmersiveBookScene() {
 
     return () => {
       disposed = true;
-      window.cancelAnimationFrame(animationFrame);
+      stopFrame();
+      stageObserver.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("pointermove", updatePointer);
       window.removeEventListener("pointerleave", hideCursor);
       resizeObserver.disconnect();
