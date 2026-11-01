@@ -140,7 +140,7 @@ export default function ArchiveExperience() {
           <h1 className="hero-title"><span className="title-line"><SplitText>GOOD BOOKS.</SplitText></span><span className="title-line title-outline"><SplitText>UNEXPECTED</SplitText></span><span className="title-line title-offset"><SplitText>FINDS.</SplitText></span></h1>
           <div className="hero-bottom">
             <div className="hero-description"><span className="eyebrow">A BOOKSHOP ON RIDEAU STREET</span><p>A second-hand bookshop full of stories, surprises and well-loved reads. Come in looking for one book. Leave with something you didn’t know you were looking for.</p><div className="hero-actions"><a className="button-primary" href="#archive">EXPLORE THE SHELVES <ArrowDownRight size={16} /></a><a className="text-link" href="#coordinates">GET DIRECTIONS <ArrowUpRight size={15} /></a></div></div>
-            <div className="hero-index"><span className="index-label">CURRENT LOCATION</span><strong>327 <span>RIDEAU ST.</span></strong><span className="index-sub">OTTAWA, ON · K1N 5Y4</span></div>
+            <div className="hero-index"><span className="index-label">FIND THE SHOP</span><strong>327 <span>RIDEAU ST.</span></strong><span className="index-sub">OTTAWA, ON · K1N 5Y4</span></div>
           </div>
         </div>
         <ImmersiveBookScene />
