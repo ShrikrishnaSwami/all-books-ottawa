@@ -128,7 +128,7 @@ export default function ArchiveExperience() {
     } catch {
       // The reading nook remains usable for this session if storage is unavailable.
     }
-  }, [saved]);
+  }, [saved, storageReady]);
 
   useEffect(() => {
     if (!selected && !menuOpen) return;
@@ -233,7 +233,7 @@ export default function ArchiveExperience() {
           <motion.div className="hero-book hero-book-front" animate={reduceMotion ? {} : { y: [0, 10, 0], rotate: [5, 7, 5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
             <BookCover book={books[0]} />
           </motion.div>
-          <div className="hero-book-note"><Sparkles size={14} /> THERE'S ALWAYS ANOTHER STORY</div>
+          <div className="hero-book-note"><Sparkles size={14} /> THERE&apos;S ALWAYS ANOTHER STORY</div>
         </div>
         <div className="hero-bottomline"><span>AN OPEN INVITATION TO GET LOST</span><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
@@ -246,7 +246,7 @@ export default function ArchiveExperience() {
         <div className="section-label"><span>01 / A DIFFERENT KIND OF BOOKSHOP</span><span>THE JOY IS IN THE FIND</span></div>
         <div className="intro-grid">
           <h2>Not every good<br />book is <em>new.</em></h2>
-          <div className="intro-copy"><p>All Books is an independent second-hand bookshop at the heart of Ottawa's Rideau Street. Think compact aisles, tall stacks and the pleasure of finding something you weren't looking for.</p><p>There is no searchable online catalogue. If you have a title in mind, ask the owner — or come in without a plan and let the shelves surprise you.</p><a className="text-link" href="#visit">A little more about the shop <ArrowUpRight size={15} /></a></div>
+          <div className="intro-copy"><p>All Books is an independent second-hand bookshop at the heart of Ottawa&apos;s Rideau Street. Think compact aisles, tall stacks and the pleasure of finding something you weren&apos;t looking for.</p><p>There is no searchable online catalogue. If you have a title in mind, ask the owner — or come in without a plan and let the shelves surprise you.</p><a className="text-link" href="#visit">A little more about the shop <ArrowUpRight size={15} /></a></div>
         </div>
         <div className="fact-strip"><div><strong>327</strong><span>RIDEAU STREET</span></div><div><strong>∞</strong><span>UNEXPECTED FINDS</span></div><div><strong>2nd</strong><span>CHANCES FOR STORIES</span></div><p>GOOD BOOKS DESERVE<br />ANOTHER READER.</p></div>
       </section>
@@ -280,7 +280,7 @@ export default function ArchiveExperience() {
 
       <section className="discovery-section section-wrap" id="discovery">
         <div className="section-label"><span>03 / THE DISCOVERY ENGINE</span><span>LET YOUR MOOD LEAD</span></div>
-        <div className="section-heading"><div><span className="eyebrow">THERE'S A SHELF FOR EVERY FEELING</span><h2>What are you<br /><em>in the mood for?</em></h2></div><p>Move the dials and let your instincts do the browsing. This playful guide suggests areas of the shop to explore, not specific books currently in stock.</p></div>
+        <div className="section-heading"><div><span className="eyebrow">THERE&apos;S A SHELF FOR EVERY FEELING</span><h2>What are you<br /><em>in the mood for?</em></h2></div><p>Move the dials and let your instincts do the browsing. This playful guide suggests areas of the shop to explore, not specific books currently in stock.</p></div>
         <div className="mood-layout">
           <div className="mood-controls">
             {moods.map((mood, index) => <div className="mood-control" key={mood.label}><div className="mood-labels"><span>{mood.left}</span><span>{mood.right}</span></div><div className="mood-title-row"><strong>{mood.label}</strong><span>{mood.opposite}</span></div><input aria-label={mood.label + " to " + mood.opposite} type="range" min="0" max="100" value={moodValues[index]} onChange={(event) => setMoodValues((values) => values.map((value, item) => item === index ? Number(event.target.value) : value))} /></div>)}
@@ -308,7 +308,7 @@ export default function ArchiveExperience() {
 
       <section className="reading-nook-section section-wrap" id="reading-nook">
         <div className="section-label"><span>05 / YOUR READING NOOK</span><span>A LITTLE PILE OF POSSIBILITIES</span></div>
-        <div className="nook-heading"><div><span className="eyebrow">KEEP THE FINDS YOU LIKE</span><h2>Leave a book<br /><em>by the bedside.</em></h2></div><p>Save the shelf prompts that catch your eye. Your reading nook stays in this browser — it's a personal shortlist, not a shopping cart or a reservation.</p></div>
+        <div className="nook-heading"><div><span className="eyebrow">KEEP THE FINDS YOU LIKE</span><h2>Leave a book<br /><em>by the bedside.</em></h2></div><p>Save the shelf prompts that catch your eye. Your reading nook stays in this browser — it&apos;s a personal shortlist, not a shopping cart or a reservation.</p></div>
         <div className="nook-desk">
           <div className="nook-stack" aria-label={savedBooks.length + " saved discoveries"}>
             <AnimatePresence mode="popLayout">
@@ -323,7 +323,7 @@ export default function ArchiveExperience() {
       <section className="visit-section section-wrap" id="visit">
         <div className="section-label"><span>06 / FIND THE BOOKSHOP</span><span>327 RIDEAU STREET · OTTAWA</span></div>
         <div className="visit-grid">
-          <div className="visit-copy"><span className="eyebrow"><span className="live-dot" /> THE DOOR IS ON RIDEAU STREET</span><h2>Come in.<br /><em>Look around.</em><br />Stay awhile.</h2><p>All Books is a compact, densely stocked second-hand bookshop. Come with a title in mind or leave room for a surprise. For a specific book, call ahead — the collection isn't searchable online.</p><div className="visit-address"><MapPin size={20} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button button-gold" href={mapUrl} target="_blank" rel="noreferrer">Get directions <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={16} /> (613) 789-9544</a></div><p className="hours-note">Hours can change — please call ahead before making the trip.</p></div>
+          <div className="visit-copy"><span className="eyebrow"><span className="live-dot" /> THE DOOR IS ON RIDEAU STREET</span><h2>Come in.<br /><em>Look around.</em><br />Stay awhile.</h2><p>All Books is a compact, densely stocked second-hand bookshop. Come with a title in mind or leave room for a surprise. For a specific book, call ahead — the collection isn&apos;t searchable online.</p><div className="visit-address"><MapPin size={20} /><div><strong>ALL BOOKS</strong><span>327 Rideau Street<br />Ottawa, Ontario K1N 5Y4</span></div></div><div className="visit-actions"><a className="button button-gold" href={mapUrl} target="_blank" rel="noreferrer">Get directions <ArrowUpRight size={16} /></a><a className="phone-link" href="tel:+16137899544"><Phone size={16} /> (613) 789-9544</a></div><p className="hours-note">Hours can change — please call ahead before making the trip.</p></div>
           <div className="shop-card"><div className="shop-card-top"><span>THE USEFUL DETAILS</span><span>OTTAWA / ON</span></div><div className="shop-illustration"><div className="shop-window"><span>ALL<br />BOOKS</span><BookOpen size={52} strokeWidth={1} /><small>SECOND-HAND BOOKS</small></div><div className="shop-plant">✳</div></div><div className="shop-card-links"><a href={mapUrl} target="_blank" rel="noreferrer"><MapPin size={17} /><span><strong>Find the shop</strong><small>327 Rideau Street, Ottawa</small></span><ArrowUpRight size={16} /></a><a href="tel:+16137899544"><Phone size={17} /><span><strong>Call ahead</strong><small>(613) 789-9544</small></span><ArrowUpRight size={16} /></a><a href={abeBooksUrl} target="_blank" rel="noreferrer"><BookOpen size={17} /><span><strong>Online book listings</strong><small>Browse the AbeBooks page</small></span><ArrowUpRight size={16} /></a></div><div className="shop-card-bottom">A GOOD BOOK IS CLOSER THAN YOU THINK.</div></div>
         </div>
       </section>
