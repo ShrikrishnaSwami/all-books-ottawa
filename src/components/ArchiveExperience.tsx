@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDown, ArrowRight, ArrowUpRight, Bookmark, BookOpen,
-  Check, Compass, Feather, MapPin, Menu, Minus, Phone, Sparkles, X
+  Check, Compass, Feather, MapPin, Menu, Minus, Phone, Sparkles, Volume2, VolumeX, X
 } from "lucide-react";
 
 type ShelfBook = {
@@ -58,6 +58,29 @@ const quotes = [
 const mapUrl = "https://www.google.com/maps/search/?api=1&query=All+Books+327+Rideau+Street+Ottawa";
 const abeBooksUrl = "https://www.abebooks.com/all-books-ottawa-ottawa-on-canada/52468515/sf";
 
+function playDropSound() {
+  try {
+    const AudioContextConstructor = window.AudioContext;
+    if (!AudioContextConstructor) return;
+    const context = new AudioContextConstructor();
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = "triangle";
+    oscillator.frequency.setValueAtTime(185, context.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(92, context.currentTime + 0.13);
+    gain.gain.setValueAtTime(0.0001, context.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.035, context.currentTime + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.16);
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+    oscillator.start();
+    oscillator.stop(context.currentTime + 0.17);
+    oscillator.onended = () => { void context.close(); };
+  } catch {
+    // Sound is decorative; saving must work even when audio is unavailable.
+  }
+}
+
 function BookCover({ book, compact = false }: { book: ShelfBook; compact?: boolean }) {
   return (
     <div className={"book-cover cover-" + book.colour + (compact ? " cover-compact" : "")}>
@@ -82,6 +105,7 @@ export default function ArchiveExperience() {
   const [storageReady, setStorageReady] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notice, setNotice] = useState("");
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   useEffect(() => {
     try {
@@ -149,6 +173,7 @@ export default function ArchiveExperience() {
   const toggleSaved = (id: string) => {
     const exists = saved.includes(id);
     setSaved((current) => exists ? current.filter((item) => item !== id) : [...current, id]);
+    if (!exists && soundEnabled) playDropSound();
     setNotice(exists ? "Removed from your reading nook" : "Added to your reading nook");
   };
 
@@ -233,7 +258,7 @@ export default function ArchiveExperience() {
           <div className="shelf-top" />
           <div className="book-spines">
             {books.map((book, index) => (
-              <motion.button key={book.id} className={"spine-button spine-" + book.colour} onClick={() => setSelected(book)} aria-label={"Explore illustrative book " + book.title} whileHover={reduceMotion ? {} : { y: -18, rotateZ: index % 2 ? 2 : -2 }} whileTap={{ scale: 0.97 }} layout transition={motionTransition}>
+              <motion.button key={book.id} className={"spine-button spine-" + book.colour} onClick={() => setSelected(book)} aria-label={"Explore illustrative book " + book.title} whileHover={reduceMotion ? {} : { y: -18, rotateZ: index % 2 ? 2 : -2, rotateY: index % 2 ? -11 : 11, rotateX: 3, z: 22 }} whileTap={{ scale: 0.97 }} layout transition={motionTransition}>
                 <span className="spine-number">{book.id}</span><span className="spine-title">{book.title}</span><span className="spine-mark">✳</span>
               </motion.button>
             ))}
@@ -290,7 +315,7 @@ export default function ArchiveExperience() {
               {savedBooks.length ? savedBooks.map((book, index) => <motion.button key={book.id} className={"nook-book nook-" + book.colour} layout initial={{ opacity: 0, y: -55, rotate: -9 }} animate={{ opacity: 1, y: index * 3, rotate: (index % 2 ? 1 : -1) * (index + 2) }} exit={{ opacity: 0, x: 90, rotate: 14 }} transition={motionTransition} onClick={() => toggleSaved(book.id)} aria-label={"Remove " + book.title + " from reading nook"}><span>{book.title}</span><small>REMOVE −</small></motion.button>) : <div className="nook-empty"><BookOpen size={34} /><strong>Your stack is waiting.</strong><span>Open a cover and save a discovery to start your pile.</span><a href="#shelves">Browse the shelves <ArrowUpRight size={14} /></a></div>}
             </AnimatePresence>
           </div>
-          <div className="nook-note"><span className="eyebrow">THE LITTLE THINGS ADD UP</span><strong>{savedBooks.length.toString().padStart(2, "0")}</strong><span>DISCOVERIES SAVED</span><p>Good things are worth keeping close.</p><button className="reset-moods" onClick={() => { setSaved([]); setNotice("Your reading nook is clear"); }} disabled={!saved.length}>CLEAR THE STACK <X size={13} /></button></div>
+          <div className="nook-note"><span className="eyebrow">THE LITTLE THINGS ADD UP</span><strong>{savedBooks.length.toString().padStart(2, "0")}</strong><span>DISCOVERIES SAVED</span><p>Good things are worth keeping close.</p><button className="reset-moods" onClick={() => setSoundEnabled((enabled) => !enabled)} aria-pressed={soundEnabled}>{soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />} SOUND {soundEnabled ? "ON" : "OFF"}</button><button className="reset-moods" onClick={() => { setSaved([]); setNotice("Your reading nook is clear"); }} disabled={!saved.length}>CLEAR THE STACK <X size={13} /></button></div>
         </div>
         <div className="nook-foot"><span><Sparkles size={14} /> YOUR SAVED LIST IS STORED ON THIS DEVICE</span><span>NO PURCHASE OR ONLINE ORDERING</span></div>
       </section>
